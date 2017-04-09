@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
@@ -22,7 +23,7 @@ import com.baidu.mapapi.map.MapView;
 import com.highjump.medicaldevice.utils.CommonUtils;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     MapView mMapView = null;
     BaiduMap mBaiduMap = null;
@@ -60,6 +61,10 @@ public class MainActivity extends AppCompatActivity
         MapStatus mapStatus = new MapStatus.Builder().zoom(15).build();
         MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus);
         mBaiduMap.setMapStatus(mapStatusUpdate);
+
+        // 扫码按钮
+        Button button = (Button)findViewById(R.id.but_scan);
+        button.setOnClickListener(this);
     }
 
     @Override
@@ -150,5 +155,17 @@ public class MainActivity extends AppCompatActivity
 
         // 地图生命周期管理
         mMapView.onResume();
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+
+        switch (id) {
+            case R.id.but_scan:
+                // 跳转到设备页面
+                CommonUtils.moveNextActivity(MainActivity.this, DeviceActivity.class, false);
+                break;
+        }
     }
 }

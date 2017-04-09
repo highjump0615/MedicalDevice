@@ -14,6 +14,7 @@
         android:clickable="true" />
 
     <Button
+        android:id="@+id/but_scan"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/main_but_height"
         android:layout_alignParentBottom="true"

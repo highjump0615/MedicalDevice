@@ -5,4 +5,9 @@
     <color name="colorWhiteHighlight">#a0ffffff</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="colorGrey">#dcdcdc</color>
+    <color name="colorGreyHighlight">#a0dcdcdc</color>
+
+    <color name="colorTransparent">#20000000</color>
 </resources>

@@ -56,6 +56,13 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <!-- 设备 -->
+        <activity
+            android:name=".DeviceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
     </application>
 
 </manifest>
