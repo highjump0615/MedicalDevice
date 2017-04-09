@@ -22,7 +22,7 @@
         android:paddingLeft="@dimen/main_but_margin_horiz"
         android:paddingRight="@dimen/main_but_margin_horiz"
         android:text="立 即 扫 码"
-        android:textSize="17sp"
+        android:textSize="@dimen/main_text_size"
         android:textColor="@android:color/white"
         android:background="@drawable/but_white_border"/>
 
