@@ -94,6 +94,9 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
         else if (id == R.id.action_signup) {
+            // 跳转到注册页面
+            CommonUtils.moveNextActivity(MainActivity.this, SignupActivity.class, false);
+
             return true;
         }
 

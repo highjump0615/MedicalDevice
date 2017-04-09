@@ -42,8 +42,16 @@
             </intent-filter>
         </activity>
 
+        <!-- 登录 -->
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <!-- 注册 -->
+        <activity
+            android:name=".SignupActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
