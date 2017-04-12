@@ -163,8 +163,8 @@ public class MainActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.but_scan:
-                // 跳转到设备页面
-                CommonUtils.moveNextActivity(MainActivity.this, DeviceActivity.class, false);
+                // 跳转到扫描页面
+                CommonUtils.moveNextActivity(MainActivity.this, ScanActivity.class, false);
                 break;
         }
     }
