@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group>
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_devconf"
+            android:icon="@drawable/ic_menu_config"
+            android:title="设备配置" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_curelog"
+            android:icon="@drawable/ic_menu_history"
+            android:title="理疗记录" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_userinfo"
+            android:icon="@drawable/ic_menu_user"
+            android:title="会员信息" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="修改密码" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="统计">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/nav_stat_user"
+                android:icon="@drawable/ic_menu_history"
+                android:title="会员统计" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_stat_device"
+                android:icon="@drawable/ic_menu_history"
+                android:title="设备统计" />
+            <item
+                android:id="@+id/nav_stat_use"
+                android:icon="@drawable/ic_menu_history"
+                android:title="使用统计" />
         </menu>
     </item>
 
