@@ -122,6 +122,10 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_medicalhistory) {
             CommonUtils.moveNextActivity(MainActivity.this, MedicalHistoryActivity.class, false);
         }
+        // 会员信息
+        else if (id == R.id.nav_userinfo) {
+            CommonUtils.moveNextActivity(MainActivity.this, UserInfoActivity.class, false);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
