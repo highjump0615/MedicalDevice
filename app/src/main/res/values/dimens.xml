@@ -25,4 +25,7 @@
     <dimen name="dialog_margin_small">7dp</dimen>
     <dimen name="dialog_icon_size">50dp</dimen>
 
+    <!-- Config activity -->
+    <dimen name="config_label_width">80dp</dimen>
+
 </resources>

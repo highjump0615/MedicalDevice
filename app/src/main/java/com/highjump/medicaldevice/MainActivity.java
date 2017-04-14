@@ -114,13 +114,11 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        // 配置设备
         if (id == R.id.nav_devconf) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+            CommonUtils.moveNextActivity(MainActivity.this, ConfigActivity.class, false);
+        }
+        else if (id == R.id.nav_manage) {
 
         }
 

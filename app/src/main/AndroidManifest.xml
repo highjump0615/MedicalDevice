@@ -72,6 +72,13 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <!-- 配置设备 -->
+        <activity
+            android:name=".ConfigActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
     </application>
 
 </manifest>

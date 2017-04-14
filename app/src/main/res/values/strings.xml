@@ -6,4 +6,9 @@
 
     <string name="action_login">登录</string>
     <string name="action_signup">注册</string>
+
+    <string-array name="wifis">
+        <item>None</item>
+    </string-array>
+
 </resources>
