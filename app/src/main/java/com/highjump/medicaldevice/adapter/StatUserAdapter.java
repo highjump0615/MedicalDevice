@@ -1,24 +1,22 @@
 package com.highjump.medicaldevice.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.highjump.medicaldevice.BaseActivity;
 import com.highjump.medicaldevice.R;
 
 
-public class MedicalHistoryAdapter extends BaseAdapter {
+public class StatUserAdapter extends BaseAdapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        int nResId = R.layout.layout_history_item;
+        int nResId = R.layout.layout_stat_user_item;
 
         // 标题
-        if (viewType == BaseAdapter.ITEM_TYPE.ITEM_TYPE_HEADER.ordinal()) {
-            nResId = R.layout.layout_history_header;
+        if (viewType == ITEM_TYPE.ITEM_TYPE_HEADER.ordinal()) {
+            nResId = R.layout.layout_stat_user_header;
         }
 
         // 创建视图
@@ -34,7 +32,7 @@ public class MedicalHistoryAdapter extends BaseAdapter {
 
     @Override
     public int getItemCount() {
-        return 10;
+        return 20;
     }
 
     /**

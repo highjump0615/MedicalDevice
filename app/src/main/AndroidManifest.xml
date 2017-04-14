@@ -107,6 +107,13 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <!-- 会员统计 -->
+        <activity
+            android:name=".StatisticsUserActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
     </application>
 
 </manifest>

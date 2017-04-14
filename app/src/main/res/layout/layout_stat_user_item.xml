@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:background="@color/colorGrey">
+    android:gravity="center_vertical">
 
     <!-- 序号 -->
     <TextView
@@ -11,34 +10,30 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:padding="@dimen/history_padding"
-        android:text="序号"
-        android:textAlignment="center"/>
+        android:text="1"/>
 
-    <!-- 理疗时间 -->
+    <!-- 手机号 -->
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:padding="@dimen/history_padding"
-        android:text="理疗时间"
-        android:textAlignment="center"/>
+        android:text="12373645297"/>
 
-    <!-- 理疗地址 -->
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="4"
-        android:padding="@dimen/history_padding"
-        android:text="理疗地址"
-        android:textAlignment="center"/>
-
-    <!-- 设备编码 -->
+    <!-- 姓名 -->
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:padding="@dimen/history_padding"
-        android:text="设备编码"
-        android:textAlignment="center"/>
+        android:text="皮夹克"/>
+
+    <!-- 注册时间 -->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:padding="@dimen/history_padding"
+        android:text="2028-09-23 23:44:33"/>
 
 </LinearLayout>
