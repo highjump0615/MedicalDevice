@@ -130,6 +130,10 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_stat_user) {
             CommonUtils.moveNextActivity(MainActivity.this, StatisticsUserActivity.class, false);
         }
+        // 设备统计
+        else if (id == R.id.nav_stat_device) {
+            CommonUtils.moveNextActivity(MainActivity.this, StatisticsDeviceActivity.class, false);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
