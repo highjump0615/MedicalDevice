@@ -32,6 +32,11 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                 // 跳转到修改会员信息页面
                 CommonUtils.moveNextActivity(UserInfoActivity.this, UserInfoEditActivity.class, false);
                 break;
+
+            case R.id.but_edit_pwd:
+                // 跳转到修改密码页面
+                CommonUtils.moveNextActivity(UserInfoActivity.this, UserInfoPasswordActivity.class, false);
+                break;
         }
     }
 }
