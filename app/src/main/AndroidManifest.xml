@@ -79,6 +79,13 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <!-- 理疗记录 -->
+        <activity
+            android:name=".MedicalHistoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
     </application>
 
 </manifest>

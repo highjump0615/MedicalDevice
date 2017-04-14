@@ -28,4 +28,8 @@
     <!-- Config activity -->
     <dimen name="config_label_width">80dp</dimen>
 
+    <!-- History activity -->
+    <dimen name="history_top_margin">10dp</dimen>
+    <dimen name="history_padding">5dp</dimen>
+
 </resources>

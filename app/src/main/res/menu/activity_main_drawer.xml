@@ -7,7 +7,7 @@
             android:icon="@drawable/ic_menu_config"
             android:title="设备配置" />
         <item
-            android:id="@+id/nav_curelog"
+            android:id="@+id/nav_medicalhistory"
             android:icon="@drawable/ic_menu_history"
             android:title="理疗记录" />
         <item

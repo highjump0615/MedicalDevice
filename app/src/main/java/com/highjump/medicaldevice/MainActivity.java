@@ -118,8 +118,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_devconf) {
             CommonUtils.moveNextActivity(MainActivity.this, ConfigActivity.class, false);
         }
-        else if (id == R.id.nav_manage) {
-
+        // 理疗记录
+        else if (id == R.id.nav_medicalhistory) {
+            CommonUtils.moveNextActivity(MainActivity.this, MedicalHistoryActivity.class, false);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
