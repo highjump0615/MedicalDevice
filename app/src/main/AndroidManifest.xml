@@ -93,6 +93,13 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <!-- 修改会员信息 -->
+        <activity
+            android:name=".UserInfoEditActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
     </application>
 
 </manifest>

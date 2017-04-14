@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.highjump.medicaldevice.ConfigActivity">
+    tools:context="com.highjump.medicaldevice.UserInfoEditActivity">
 
     <include
         layout="@layout/app_tool_bar"
@@ -19,7 +19,15 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- 设置编码 -->
+        <!-- 标题 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="会员信息"
+            android:textSize="@dimen/main_text_size"/>
+
+        <!-- 手机号 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,14 +36,31 @@
             <TextView
                 android:layout_width="@dimen/config_label_width"
                 android:layout_height="wrap_content"
-                android:text="设置编码："/>
+                android:text="手机号："/>
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/login_text_height"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <!-- 姓名 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_margin_vert"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="@dimen/config_label_width"
+                android:layout_height="wrap_content"
+                android:text="姓名："/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:inputType="text" />
         </LinearLayout>
 
-        <!-- 放置地点 -->
+        <!-- 身份证号 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,43 +69,11 @@
             <TextView
                 android:layout_width="@dimen/config_label_width"
                 android:layout_height="wrap_content"
-                android:text="放置地点："/>
+                android:text="身份证号："/>
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/login_text_height"
-                android:inputType="text"/>
-        </LinearLayout>
-
-        <!-- 网络 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/login_margin_vert"
-            android:gravity="center_vertical">
-            <TextView
-                android:layout_width="@dimen/config_label_width"
                 android:layout_height="wrap_content"
-                android:text="网络："/>
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/login_text_height"
-                android:entries="@array/wifis"/>
-        </LinearLayout>
-
-        <!-- 密码 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/login_margin_vert"
-            android:gravity="center_vertical">
-            <TextView
-                android:layout_width="@dimen/config_label_width"
-                android:layout_height="wrap_content"
-                android:text="密码："/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/login_text_height"
-                android:inputType="textPassword"/>
+                android:inputType="number"/>
         </LinearLayout>
 
         <!-- 提示 -->
@@ -88,17 +81,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/login_margin_vert"
-            android:gravity="center"
-            android:text="正在搜寻设备"/>
-        
-        <Button
+            android:gravity="center" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/login_text_height"
-            android:layout_marginTop="30dp"
-            android:text="配置设置"
-            android:textSize="@dimen/main_text_size"
-            android:textColor="@android:color/white"
-            android:background="@drawable/but_round_primary"/>
+            android:layout_marginTop="@dimen/login_margin_vert"
+            android:gravity="center_horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/login_margin_vert"
+                android:text="确认保存"
+                android:textColor="@android:color/white"
+                android:background="@drawable/but_round_primary"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/login_margin_vert"
+                android:text="取消"
+                android:textColor="@android:color/white"
+                android:background="@drawable/but_round_primary"/>
+        </LinearLayout>
 
     </LinearLayout>
 
