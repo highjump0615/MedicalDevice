@@ -121,6 +121,13 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <!-- 使用统计 -->
+        <activity
+            android:name=".StatisticsUseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
     </application>
 
 </manifest>
