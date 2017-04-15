@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.highjump.medicaldevice.SignupActivity">
+
+    <include
+        layout="@layout/app_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_text_height"
+            android:layout_marginTop="@dimen/login_margin_vert"
+            android:paddingStart="@dimen/login_text_padding"
+            android:paddingEnd="@dimen/login_text_padding"
+            android:hint="请输入手机号"
+            android:inputType="number"
+            android:background="@drawable/primary_border_round"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_text_height"
+            android:layout_marginTop="@dimen/login_margin_vert"
+            android:paddingStart="@dimen/login_text_padding"
+            android:paddingEnd="@dimen/login_text_padding"
+            android:inputType="textPassword"
+            android:hint="设置登录密码"
+            android:background="@drawable/primary_border_round"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_text_height"
+            android:layout_marginTop="@dimen/login_margin_vert"
+            android:paddingStart="@dimen/login_text_padding"
+            android:paddingEnd="@dimen/login_text_padding"
+            android:inputType="textPassword"
+            android:hint="确认密码"
+            android:background="@drawable/primary_border_round"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_text_height"
+            android:layout_marginTop="30dp"
+            android:text="确 认 注 册"
+            android:textSize="@dimen/main_text_size"
+            android:textColor="@android:color/white"
+            android:background="@drawable/but_round_primary"/>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

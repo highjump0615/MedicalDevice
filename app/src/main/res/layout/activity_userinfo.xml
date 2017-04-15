@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.highjump.medicaldevice.UserInfoActivity">
+
+    <include
+        layout="@layout/app_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!-- 标题 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="会员信息"
+            android:textSize="@dimen/main_text_size"/>
+
+        <!-- 手机号 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_margin_vert"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="@dimen/config_label_width"
+                android:layout_height="wrap_content"
+                android:text="手机号："/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- 姓名 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_margin_vert"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="@dimen/config_label_width"
+                android:layout_height="wrap_content"
+                android:text="姓名："/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- 身份证号 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_margin_vert"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="@dimen/config_label_width"
+                android:layout_height="wrap_content"
+                android:text="身份证号："/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- 提示 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_margin_vert"
+            android:gravity="center" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_text_height"
+            android:layout_marginTop="@dimen/login_margin_vert"
+            android:gravity="center_horizontal">
+            <Button
+                android:id="@+id/but_edit_info"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/login_margin_vert"
+                android:text="修改信息"
+                android:textColor="@android:color/white"
+                android:background="@drawable/but_round_primary"/>
+            <Button
+                android:id="@+id/but_edit_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/login_margin_vert"
+                android:text="修改密码"
+                android:textColor="@android:color/white"
+                android:background="@drawable/but_round_primary"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

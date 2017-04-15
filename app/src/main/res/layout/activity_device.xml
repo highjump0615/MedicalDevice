@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.highjump.medicaldevice.DeviceActivity">
+
+    <include
+        layout="@layout/app_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- 对话框 -->
+    <RelativeLayout
+        android:id="@+id/layout_dialog_start"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTransparent"
+        android:gravity="center_horizontal">
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_white_small"
+            android:layout_marginTop="150dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Title bar -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/login_text_height"
+                android:background="@drawable/primary_round">
+
+                <!-- Title -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/main_text_size"
+                    android:gravity="center"
+                    android:text="提示"/>
+
+                <!-- Make bottom reactangle -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/corner_radius"
+                    android:background="@color/colorPrimary"
+                    android:layout_alignParentBottom="true" />
+
+            </RelativeLayout>
+
+            <!-- 文字内容 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dialog_margin_large"
+                android:layout_marginBottom="@dimen/dialog_margin_large"
+                android:text="确认启动设备？"
+                android:textSize="@dimen/main_text_size"/>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/login_text_height"
+                android:paddingLeft="@dimen/dialog_margin"
+                android:paddingRight="@dimen/dialog_margin"
+                android:layout_marginBottom="@dimen/dialog_margin">
+
+                <Button
+                    android:id="@+id/but_start"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/dialog_margin_small"
+                    android:text="启 动"
+                    android:textSize="@dimen/main_text_size"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/but_round_primary"/>
+
+                <Button
+                    android:id="@+id/but_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/dialog_margin_small"
+                    android:text="取 消"
+                    android:textSize="@dimen/main_text_size"
+                    android:background="@drawable/but_round_grey"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!-- 对话框 -->
+    <RelativeLayout
+        android:id="@+id/layout_dialog_success"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTransparent"
+        android:gravity="center_horizontal"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_white_small"
+            android:layout_marginTop="150dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- 图标 -->
+            <ImageView
+                android:layout_width="@dimen/dialog_icon_size"
+                android:layout_height="@dimen/dialog_icon_size"
+                android:layout_marginTop="@dimen/dialog_margin_large"
+                android:src="@drawable/ic_dialog_tick"/>
+
+            <!-- 文字内容 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dialog_margin_large"
+                android:layout_marginBottom="@dimen/dialog_margin_large"
+                android:text="设备初始参数设置成功"
+                android:textSize="@dimen/main_text_size"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/login_text_height"
+                android:paddingLeft="@dimen/dialog_margin"
+                android:paddingRight="@dimen/dialog_margin"
+                android:layout_marginBottom="@dimen/dialog_margin"
+                android:gravity="center_horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/but_ok"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/dialog_margin_small"
+                    android:text="启 动"
+                    android:textSize="@dimen/main_text_size"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/but_round_primary"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
