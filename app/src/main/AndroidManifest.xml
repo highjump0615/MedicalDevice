@@ -28,6 +28,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!-- 百度定位服务 -->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="aqHcFvOQkse8N8ZuHdeNKGv3DavrZU0p" />
