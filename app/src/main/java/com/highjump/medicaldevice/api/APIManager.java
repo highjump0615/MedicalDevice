@@ -15,11 +15,11 @@ import okhttp3.Request;
 
 public class APIManager {
 
-    private static String API_PATH_DATA = "http://291.234.2.171:8888";
+    private static String API_PATH_DATA = "http://219.234.2.171:8888";
 
     // API功能
     private final String ACTION_SIGNUP = "registerMember";
-    private final String ACTION_LOGIN = "login";
+    private final String ACTION_LOGIN = "loginUser";
 
     // 参数名称
     private final String PARAM_ACTION = "action";
@@ -132,7 +132,7 @@ public class APIManager {
 
         Request request = new Request.Builder()
                 .url(serviceAPIURL)
-                .get()
+                .post(formParam)
                 .build();
 
         OkHttpClient client = new OkHttpClient();

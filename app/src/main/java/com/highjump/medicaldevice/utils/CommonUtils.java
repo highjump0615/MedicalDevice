@@ -12,8 +12,12 @@ public class CommonUtils {
     /**
      * 跳转到指定的activity
      */
-    public static void moveNextActivity(Activity source, Class<?> destinationClass, boolean removeSource) {
+    public static void moveNextActivity(Activity source, Class<?> destinationClass, boolean removeSource, boolean clear) {
         Intent intent = new Intent(source, destinationClass);
+
+        if (clear) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
 
         source.startActivity(intent);
 

@@ -84,7 +84,7 @@ public class LoginSignupActivity extends BaseActivity {
                                     new User(mstrUsername, resultObj.getResult());
 
                                     // 跳转到主页面
-                                    CommonUtils.moveNextActivity(LoginSignupActivity.this, MainActivity.class, false);
+                                    CommonUtils.moveNextActivity(LoginSignupActivity.this, MainActivity.class, true, true);
                                 }
                                 catch (Exception e) {
                                     // 解析失败

@@ -28,6 +28,7 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+import com.highjump.medicaldevice.model.User;
 import com.highjump.medicaldevice.utils.CommonUtils;
 
 import java.util.ArrayList;
@@ -46,9 +47,15 @@ public class MainActivity extends AppCompatActivity
 
     boolean mbFirstLocation = true;
 
+    // 当前用户
+    private User mCurrentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // 获取当前用户
+        mCurrentUser = User.currentUser();
 
         // 百度地图SDK初始化
         SDKInitializer.initialize(getApplicationContext());
@@ -105,7 +112,18 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        if (mCurrentUser != null) {
+            // 已登录
+            getMenuInflater().inflate(R.menu.main_loggedin, menu);
+
+            MenuItem item = menu.findItem(R.id.action_username);
+            item.setTitle(mCurrentUser.getUsername());
+        }
+        else {
+            // 未登录
+            getMenuInflater().inflate(R.menu.main, menu);
+        }
+
         return true;
     }
 
@@ -119,13 +137,13 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_login) {
             // 跳转到登录页面
-            CommonUtils.moveNextActivity(MainActivity.this, LoginActivity.class, false);
+            CommonUtils.moveNextActivity(MainActivity.this, LoginActivity.class, false, false);
 
             return true;
         }
         else if (id == R.id.action_signup) {
             // 跳转到注册页面
-            CommonUtils.moveNextActivity(MainActivity.this, SignupActivity.class, false);
+            CommonUtils.moveNextActivity(MainActivity.this, SignupActivity.class, false, false);
 
             return true;
         }
@@ -141,27 +159,27 @@ public class MainActivity extends AppCompatActivity
 
         // 配置设备
         if (id == R.id.nav_devconf) {
-            CommonUtils.moveNextActivity(MainActivity.this, ConfigActivity.class, false);
+            CommonUtils.moveNextActivity(MainActivity.this, ConfigActivity.class, false, false);
         }
         // 理疗记录
         else if (id == R.id.nav_medicalhistory) {
-            CommonUtils.moveNextActivity(MainActivity.this, MedicalHistoryActivity.class, false);
+            CommonUtils.moveNextActivity(MainActivity.this, MedicalHistoryActivity.class, false, false);
         }
         // 会员信息
         else if (id == R.id.nav_userinfo) {
-            CommonUtils.moveNextActivity(MainActivity.this, UserInfoActivity.class, false);
+            CommonUtils.moveNextActivity(MainActivity.this, UserInfoActivity.class, false, false);
         }
         // 会员统计
         else if (id == R.id.nav_stat_user) {
-            CommonUtils.moveNextActivity(MainActivity.this, StatisticsUserActivity.class, false);
+            CommonUtils.moveNextActivity(MainActivity.this, StatisticsUserActivity.class, false, false);
         }
         // 设备统计
         else if (id == R.id.nav_stat_device) {
-            CommonUtils.moveNextActivity(MainActivity.this, StatisticsDeviceActivity.class, false);
+            CommonUtils.moveNextActivity(MainActivity.this, StatisticsDeviceActivity.class, false, false);
         }
         // 使用统计
         else if (id == R.id.nav_stat_use) {
-            CommonUtils.moveNextActivity(MainActivity.this, StatisticsUseActivity.class, false);
+            CommonUtils.moveNextActivity(MainActivity.this, StatisticsUseActivity.class, false, false);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -200,7 +218,7 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.but_scan:
                 // 跳转到扫描页面
-                CommonUtils.moveNextActivity(MainActivity.this, ScanActivity.class, false);
+                CommonUtils.moveNextActivity(MainActivity.this, ScanActivity.class, false, false);
                 break;
         }
     }

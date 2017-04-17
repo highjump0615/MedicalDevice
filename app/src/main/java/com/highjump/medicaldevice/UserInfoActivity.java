@@ -30,12 +30,12 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         switch (nId) {
             case R.id.but_edit_info:
                 // 跳转到修改会员信息页面
-                CommonUtils.moveNextActivity(UserInfoActivity.this, UserInfoEditActivity.class, false);
+                CommonUtils.moveNextActivity(UserInfoActivity.this, UserInfoEditActivity.class, false, false);
                 break;
 
             case R.id.but_edit_pwd:
                 // 跳转到修改密码页面
-                CommonUtils.moveNextActivity(UserInfoActivity.this, UserInfoPasswordActivity.class, false);
+                CommonUtils.moveNextActivity(UserInfoActivity.this, UserInfoPasswordActivity.class, false, false);
                 break;
         }
     }

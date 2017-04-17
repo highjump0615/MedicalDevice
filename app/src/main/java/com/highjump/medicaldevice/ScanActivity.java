@@ -45,7 +45,7 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
         Toast.makeText(this, result.getText(), Toast.LENGTH_SHORT).show();
 
         // 跳转到设备页面
-        CommonUtils.moveNextActivity(ScanActivity.this, DeviceActivity.class, true);
+        CommonUtils.moveNextActivity(ScanActivity.this, DeviceActivity.class, true, false);
     }
 
     @Override

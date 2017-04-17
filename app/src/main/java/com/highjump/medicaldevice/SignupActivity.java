@@ -127,6 +127,9 @@ public class SignupActivity extends LoginSignupActivity implements View.OnClickL
                                         CommonUtils.createErrorAlertDialog(SignupActivity.this, "注册失败").show();
                                         return;
                                     }
+
+                                    // 登录
+                                    doLogin();
                                 }
                                 catch (Exception e) {
                                     // 解析失败
