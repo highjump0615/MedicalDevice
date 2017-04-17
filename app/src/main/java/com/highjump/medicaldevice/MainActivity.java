@@ -75,6 +75,29 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // 设置drawer菜单
+        navigationView.getMenu().clear();
+
+        if (mCurrentUser == null) {
+            // 未登录
+            navigationView.inflateMenu(R.menu.activity_main_drawer_not_login);
+        }
+        else {
+            // 登录时，根据用户角色显示不同的菜单
+            if (mCurrentUser.getUserRole().equals(User.USER_SYSADMIN)) {
+                // 系统管理员
+                navigationView.inflateMenu(R.menu.activity_main_drawer_sysadmin);
+            }
+            else if (mCurrentUser.getUserRole().equals(User.USER_DEVADMIN)) {
+                // 设备管理员
+                navigationView.inflateMenu(R.menu.activity_main_drawer_devadmin);
+            }
+            else {
+                // 普通会员
+                navigationView.inflateMenu(R.menu.activity_main_drawer_normal);
+            }
+        }
+
         // 开始定位
         mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
         mLocationClient.registerLocationListener( myListener );    //注册监听函数
@@ -137,13 +160,13 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_login) {
             // 跳转到登录页面
-            CommonUtils.moveNextActivity(MainActivity.this, LoginActivity.class, false, false);
+            gotoLogin();
 
             return true;
         }
         else if (id == R.id.action_signup) {
             // 跳转到注册页面
-            CommonUtils.moveNextActivity(MainActivity.this, SignupActivity.class, false, false);
+            gotoSignup();
 
             return true;
         }
@@ -157,8 +180,15 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        // 登录
+        if (id == R.id.nav_login) {
+            gotoLogin();
+        }
+        else if (id == R.id.nav_signup) {
+            gotoSignup();
+        }
         // 配置设备
-        if (id == R.id.nav_devconf) {
+        else if (id == R.id.nav_devconf) {
             CommonUtils.moveNextActivity(MainActivity.this, ConfigActivity.class, false, false);
         }
         // 理疗记录
@@ -217,10 +247,31 @@ public class MainActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.but_scan:
-                // 跳转到扫描页面
-                CommonUtils.moveNextActivity(MainActivity.this, ScanActivity.class, false, false);
+                // 未登录时跳转到登录页面
+                if (mCurrentUser == null) {
+                    gotoLogin();
+                }
+                else {
+                    // 跳转到扫描页面
+                    CommonUtils.moveNextActivity(MainActivity.this, ScanActivity.class, false, false);
+                }
+
                 break;
         }
+    }
+
+    /**
+     * 跳转到登录页面
+     */
+    public void gotoLogin() {
+        CommonUtils.moveNextActivity(MainActivity.this, LoginActivity.class, false, false);
+    }
+
+    /**
+     * 跳转到注册页面
+     */
+    public void gotoSignup() {
+        CommonUtils.moveNextActivity(MainActivity.this, SignupActivity.class, false, false);
     }
 
     /**
