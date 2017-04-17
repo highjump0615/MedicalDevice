@@ -1,6 +1,12 @@
 package com.highjump.medicaldevice.model;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+import com.highjump.medicaldevice.utils.Config;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,8 +48,33 @@ public class User {
      * 获取当前用户
      * @return - 用户模型实例
      */
-    public static User currentUser() {
+    public static User currentUser(Context context) {
+        if (mInstance == null) {
+            // 获取Preference的参数
+            SharedPreferences preferences = context.getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
+            String strJson = preferences.getString(Config.PREF_USER_DATA, "");
+
+            if (!strJson.isEmpty()) {
+                Gson gson = new Gson();
+                mInstance = gson.fromJson(strJson, User.class);
+            }
+        }
+
         return mInstance;
+    }
+
+    /**
+     * 注销
+     * @param context
+     */
+    public static void logOut(Context context) {
+        mInstance = null;
+
+        // 删除Preference的参数
+        SharedPreferences preferences = context.getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove(Config.PREF_USER_DATA);
+        editor.apply();
     }
 
     public String getUsername() {

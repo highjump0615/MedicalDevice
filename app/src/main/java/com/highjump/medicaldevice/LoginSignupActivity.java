@@ -1,8 +1,11 @@
 package com.highjump.medicaldevice;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
 import com.highjump.medicaldevice.api.APIManager;
 import com.highjump.medicaldevice.api.ApiResponse;
 import com.highjump.medicaldevice.model.User;
@@ -81,7 +84,20 @@ public class LoginSignupActivity extends BaseActivity {
                                     }
 
                                     // 设置当前用户
-                                    new User(mstrUsername, resultObj.getResult());
+                                    User userNew = new User(mstrUsername, resultObj.getResult());
+
+                                    //
+                                    // 保存用户信息
+                                    //
+                                    SharedPreferences preferences = getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = preferences.edit();
+
+                                    // 用户数据转json
+                                    Gson gson = new Gson();
+                                    String jsonUser = gson.toJson(userNew);
+
+                                    editor.putString(Config.PREF_USER_DATA, jsonUser);
+                                    editor.apply();
 
                                     // 跳转到主页面
                                     CommonUtils.moveNextActivity(LoginSignupActivity.this, MainActivity.class, true, true);

@@ -2,6 +2,8 @@ package com.highjump.medicaldevice;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +32,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.highjump.medicaldevice.model.User;
 import com.highjump.medicaldevice.utils.CommonUtils;
+import com.highjump.medicaldevice.utils.Config;
 
 import java.util.ArrayList;
 
@@ -54,8 +57,10 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //
         // 获取当前用户
-        mCurrentUser = User.currentUser();
+        //
+        mCurrentUser = User.currentUser(this);
 
         // 百度地图SDK初始化
         SDKInitializer.initialize(getApplicationContext());
@@ -169,6 +174,13 @@ public class MainActivity extends AppCompatActivity
             gotoSignup();
 
             return true;
+        }
+        else if (id == R.id.action_logout) {
+            // 注销
+            User.logOut(this);
+
+            // 重新加载主页面
+            CommonUtils.moveNextActivity(MainActivity.this, MainActivity.class, true, true);
         }
 
         return super.onOptionsItemSelected(item);
