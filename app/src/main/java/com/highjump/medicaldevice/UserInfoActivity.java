@@ -49,10 +49,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         mTextNotice = (TextView) findViewById(R.id.text_notice);
 
         mCurrentUser = User.currentUser(null);
-        updateUserInfo();
 
         // 如果没获取到用户信息，调用获取服务
-        if (mCurrentUser.isFetched()) {
+        if (!mCurrentUser.isFetched()) {
             getUserInfo();
         }
     }
@@ -60,10 +59,11 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     /**
      * 获取用户信息
      */
+
     public void getUserInfo() {
         // 调用相应的API
-        APIManager.getInstance().userLogin(
-                mCurrentUser.getUsername(),
+        APIManager.getInstance().getUserInfo(
+                mCurrentUser.getId(),
                 mCurrentUser.getLoginId(),
                 new Callback() {
                     @Override
@@ -123,6 +123,13 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                     }
                 }
         );
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        updateUserInfo();
     }
 
     /**

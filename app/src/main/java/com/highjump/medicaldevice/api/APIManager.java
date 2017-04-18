@@ -1,5 +1,7 @@
 package com.highjump.medicaldevice.api;
 
+import com.highjump.medicaldevice.model.User;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,6 +23,7 @@ public class APIManager {
     private final String ACTION_SIGNUP = "registerMember";
     private final String ACTION_LOGIN = "loginUser";
     private final String ACTION_GET_USERINFO = "getMemberInfo";
+    private final String ACTION_SET_USERINFO = "sendMemberInfo";
 
     // 参数名称
     private final String PARAM_ACTION = "action";
@@ -107,6 +110,29 @@ public class APIManager {
         }
 
         sendToServiceByPost(API_PATH_DATA, ACTION_GET_USERINFO, objData.toString(), responseCallback);
+    }
+
+    /**
+     * 保存会员信息
+     * @param user 用户信息
+     * @param responseCallback 回调函数
+     */
+    public void saveUserInfo(User user,
+                             Callback responseCallback) {
+
+        JSONObject objData = new JSONObject();
+        try {
+            objData.put("userID", user.getId());
+            objData.put("loginID", user.getLoginId());
+            objData.put("username", user.getUsername());
+            objData.put("name", user.getName());
+            objData.put("idCode", user.getIdCode());
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendToServiceByPost(API_PATH_DATA, ACTION_SET_USERINFO, objData.toString(), responseCallback);
     }
 
     /**

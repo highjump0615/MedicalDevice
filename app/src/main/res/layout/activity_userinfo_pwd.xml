@@ -75,14 +75,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/login_margin_vert"
-                android:text="确认保存"
+                android:text="@string/but_save_confirm"
                 android:textColor="@android:color/white"
                 android:background="@drawable/but_round_primary"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/login_margin_vert"
-                android:text="取消"
+                android:text="@string/but_cancel"
                 android:textColor="@android:color/white"
                 android:background="@drawable/but_round_primary"/>
         </LinearLayout>
