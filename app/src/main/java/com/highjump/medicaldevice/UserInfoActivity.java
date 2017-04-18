@@ -59,7 +59,6 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     /**
      * 获取用户信息
      */
-
     public void getUserInfo() {
         // 调用相应的API
         APIManager.getInstance().getUserInfo(

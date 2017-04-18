@@ -7,6 +7,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CommonUtils {
 
     /**
@@ -51,5 +55,34 @@ public class CommonUtils {
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(android.R.string.ok, null).create();
+    }
+
+    /**
+     * string转date
+     * @param strDate
+     * @return
+     */
+    public static Date stringToDate(String strDate) {
+        Date time = null;
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            time = sdf.parse(strDate);
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return time;
+    }
+
+    /**
+     * date转string
+     * @param date
+     * @return
+     */
+    public static String dateToString(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        return sdf.format(date);
     }
 }

@@ -1,6 +1,7 @@
 package com.highjump.medicaldevice.api;
 
 import com.highjump.medicaldevice.model.User;
+import com.highjump.medicaldevice.utils.Config;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +25,7 @@ public class APIManager {
     private final String ACTION_LOGIN = "loginUser";
     private final String ACTION_GET_USERINFO = "getMemberInfo";
     private final String ACTION_SET_USERINFO = "sendMemberInfo";
+    private final String ACTION_GET_TREATHISTORY = "listTreat";
 
     // 参数名称
     private final String PARAM_ACTION = "action";
@@ -75,8 +77,8 @@ public class APIManager {
      * @param responseCallback 回调函数
      */
     public void userLogin(String username,
-                           String userpassword,
-                           Callback responseCallback) {
+                          String userpassword,
+                          Callback responseCallback) {
 
         JSONObject objData = new JSONObject();
         try {
@@ -133,6 +135,30 @@ public class APIManager {
         }
 
         sendToServiceByPost(API_PATH_DATA, ACTION_SET_USERINFO, objData.toString(), responseCallback);
+    }
+
+    /**
+     * 获取理疗记录
+     * @param user 用户信息
+     * @param currentPage 当前页号
+     * @param responseCallback 回调函数
+     */
+    public void getTreatHistory(User user,
+                                int currentPage,
+                                Callback responseCallback) {
+
+        JSONObject objData = new JSONObject();
+        try {
+            objData.put("userID", user.getId());
+            objData.put("loginID", user.getLoginId());
+            objData.put("currentPage", currentPage);
+            objData.put("pageSize", Config.PAGE_SIZE);
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendToServiceByPost(API_PATH_DATA, ACTION_GET_TREATHISTORY, objData.toString(), responseCallback);
     }
 
     /**
