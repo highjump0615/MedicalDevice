@@ -20,6 +20,7 @@ public class APIManager {
     // API功能
     private final String ACTION_SIGNUP = "registerMember";
     private final String ACTION_LOGIN = "loginUser";
+    private final String ACTION_GET_USERINFO = "getMemberInfo";
 
     // 参数名称
     private final String PARAM_ACTION = "action";
@@ -84,6 +85,28 @@ public class APIManager {
         }
 
         sendToServiceByPost(API_PATH_DATA, ACTION_LOGIN, objData.toString(), responseCallback);
+    }
+
+    /**
+     * 获取会员信息
+     * @param userId 用户标识
+     * @param loginId 登录编号
+     * @param responseCallback 回调函数
+     */
+    public void getUserInfo(String userId,
+                            String loginId,
+                            Callback responseCallback) {
+
+        JSONObject objData = new JSONObject();
+        try {
+            objData.put("userID", userId);
+            objData.put("loginID", loginId);
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendToServiceByPost(API_PATH_DATA, ACTION_GET_USERINFO, objData.toString(), responseCallback);
     }
 
     /**

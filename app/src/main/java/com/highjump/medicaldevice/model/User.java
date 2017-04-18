@@ -24,6 +24,8 @@ public class User {
     private String loginId;
     // 姓名
     private String name;
+    // 身份证号
+    private String idCode;
     // 用户角色
     private String userRole;
 
@@ -35,7 +37,7 @@ public class User {
             username = uname;
             loginId = data.getString("loginID");
             id = data.getString("userID");
-            userRole = data.getString("userID");
+            userRole = data.getString("userRole");
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -49,7 +51,7 @@ public class User {
      * @return - 用户模型实例
      */
     public static User currentUser(Context context) {
-        if (mInstance == null) {
+        if (mInstance == null && context != null) {
             // 获取Preference的参数
             SharedPreferences preferences = context.getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
             String strJson = preferences.getString(Config.PREF_USER_DATA, "");
@@ -97,4 +99,29 @@ public class User {
         return userRole;
     }
 
+    public String getIdCode() {
+        return idCode;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setIdCode(String idCode) {
+        this.idCode = idCode;
+    }
+
+    /**
+     * 是否已获取用户信息
+     * @return
+     */
+    public boolean isFetched() {
+        boolean bRes = true;
+
+        if (name == null || name.isEmpty()) {
+            bRes = false;
+        }
+
+        return bRes;
+    }
 }

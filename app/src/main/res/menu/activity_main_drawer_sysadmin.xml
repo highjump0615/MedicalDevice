@@ -5,7 +5,7 @@
         <item
             android:id="@+id/nav_userinfo"
             android:icon="@drawable/ic_menu_user"
-            android:title="会员信息" />
+            android:title="@string/action_userinfo" />
     </group>
 
     <item android:title="统计">

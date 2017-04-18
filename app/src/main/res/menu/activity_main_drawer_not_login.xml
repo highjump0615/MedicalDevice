@@ -5,11 +5,11 @@
         <item
             android:id="@+id/nav_login"
             android:icon="@drawable/ic_menu_login"
-            android:title="登录" />
+            android:title="@string/action_login" />
         <item
             android:id="@+id/nav_signup"
             android:icon="@drawable/ic_menu_signup"
-            android:title="注册" />
+            android:title="@string/action_signup" />
     </group>
 
 </menu>

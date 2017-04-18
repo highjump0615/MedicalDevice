@@ -7,6 +7,10 @@
     <string name="action_login">登录</string>
     <string name="action_signup">注册</string>
 
+    <string name="action_userinfo">会员信息</string>
+
+    <string name="notice_get_fail">获取失败</string>
+
     <string-array name="wifis">
         <item>None</item>
     </string-array>

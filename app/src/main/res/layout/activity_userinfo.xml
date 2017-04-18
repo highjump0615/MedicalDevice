@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:text="手机号："/>
             <TextView
+                android:id="@+id/text_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -53,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:text="姓名："/>
             <TextView
+                android:id="@+id/text_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -68,12 +70,14 @@
                 android:layout_height="wrap_content"
                 android:text="身份证号："/>
             <TextView
+                android:id="@+id/text_idcode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
         <!-- 提示 -->
         <TextView
+            android:id="@+id/text_notice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/login_margin_vert"
