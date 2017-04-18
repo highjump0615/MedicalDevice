@@ -27,6 +27,9 @@ public class UserInfoEditActivity extends BaseActivity implements View.OnClickLi
 
     private User mCurrentUser;
 
+    // 调用服务状态
+    private String mstrApiErr = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,9 +78,8 @@ public class UserInfoEditActivity extends BaseActivity implements View.OnClickLi
     private void saveUserInfo() {
         mTextNotice.setText("正在保存...");
 
-        // 更新当前用户
-        mCurrentUser.setName(mEditName.getText().toString());
-        mCurrentUser.setIdCode(mEditIdcode.getText().toString());
+        // 清空状态
+        mstrApiErr = "";
 
         // 调用相应的API
         APIManager.getInstance().saveUserInfo(
@@ -96,39 +98,44 @@ public class UserInfoEditActivity extends BaseActivity implements View.OnClickLi
 
                     @Override
                     public void onResponse(Call call, final Response response) throws IOException {
-                        // UI线程上运行
+
+                        if (!response.isSuccessful()) {
+                            // 失败
+                            mstrApiErr = response.message();
+                        }
+
+                        try {
+                            // 获取返回数据
+                            ApiResponse resultObj = new ApiResponse(response.body().string());
+
+                            if (!resultObj.isSuccess()) {
+                                mstrApiErr = "保存失败";
+                            }
+                            else {
+                                // 更新当前用户
+                                mCurrentUser.setName(mEditName.getText().toString());
+                                mCurrentUser.setIdCode(mEditIdcode.getText().toString());
+                            }
+                        }
+                        catch (Exception e) {
+                            // 解析失败
+                            mstrApiErr = Config.STR_PARSE_FAIL;
+                        }
+
+                        response.close();
+
+                        // 更新界面，UI线程上运行
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
-                                // 失败
-                                if (!response.isSuccessful()) {
-                                    mTextNotice.setText(response.message());
-
-                                    response.close();
+                                // 出现了错误，直接退出
+                                if (!mstrApiErr.isEmpty()) {
+                                    mTextNotice.setText(mstrApiErr);
                                     return;
                                 }
 
-                                try {
-                                    // 获取返回数据
-                                    ApiResponse resultObj = new ApiResponse(response.body().string());
-
-                                    if (!resultObj.isSuccess()) {
-                                        mTextNotice.setText("保存失败");
-
-                                        response.close();
-                                        return;
-                                    }
-
-                                    // 返回
-                                    onBackPressed();
-                                }
-                                catch (Exception e) {
-                                    // 解析失败
-                                    mTextNotice.setText(Config.STR_PARSE_FAIL);
-                                }
-
-                                response.close();
+                                // 返回
+                                onBackPressed();
                             }
                         });
                     }

@@ -30,10 +30,17 @@ public class LoginSignupActivity extends BaseActivity {
 
     protected ProgressDialog mProgressDialog;
 
+    // 调用服务状态
+    protected String mstrApiErrTitle = "";
+    protected String mstrApiErrMsg = "";
+
     /**
      * 登录
      */
     protected void doLogin() {
+
+        // 清空状态
+        mstrApiErrTitle = mstrApiErrMsg = "";
 
         mProgressDialog = ProgressDialog.show(this, "", "正在登录...");
 
@@ -57,32 +64,22 @@ public class LoginSignupActivity extends BaseActivity {
 
                     @Override
                     public void onResponse(Call call, final Response response) throws IOException {
-                        // UI线程上运行
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
 
-                                mProgressDialog.dismiss();
+                        // 失败
+                        if (!response.isSuccessful()) {
+                            // 失败
+                            mstrApiErrTitle = "登录失败";
+                            mstrApiErrMsg = response.message();
+                        }
+                        else {
+                            try {
+                                // 获取返回数据
+                                ApiResponse resultObj = new ApiResponse(response.body().string());
 
-                                // 失败
-                                if (!response.isSuccessful()) {
-                                    CommonUtils.createErrorAlertDialog(LoginSignupActivity.this, "登录失败", response.message()).show();
-
-                                    response.close();
-                                    return;
+                                if (!resultObj.isSuccess()) {
+                                    mstrApiErrTitle = "登录失败";
                                 }
-
-                                try {
-                                    // 获取返回数据
-                                    ApiResponse resultObj = new ApiResponse(response.body().string());
-
-                                    if (!resultObj.isSuccess()) {
-                                        CommonUtils.createErrorAlertDialog(LoginSignupActivity.this, "登录失败").show();
-
-                                        response.close();
-                                        return;
-                                    }
-
+                                else {
                                     // 设置当前用户
                                     User userNew = new User(mstrUsername, resultObj.getResult());
 
@@ -98,16 +95,37 @@ public class LoginSignupActivity extends BaseActivity {
 
                                     editor.putString(Config.PREF_USER_DATA, jsonUser);
                                     editor.apply();
-
-                                    // 跳转到主页面
-                                    CommonUtils.moveNextActivity(LoginSignupActivity.this, MainActivity.class, true, true);
                                 }
-                                catch (Exception e) {
-                                    // 解析失败
-                                    CommonUtils.createErrorAlertDialog(LoginSignupActivity.this, Config.STR_PARSE_FAIL, e.getMessage()).show();
+                            }
+                            catch (Exception e) {
+                                // 解析失败
+                                mstrApiErrTitle = Config.STR_PARSE_FAIL;
+                                mstrApiErrTitle = e.getMessage();
+                            }
+
+                            response.close();
+                        }
+
+                        // 更新界面，UI线程上运行
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mProgressDialog.dismiss();
+
+                                // 出现了错误，直接退出
+                                if (!mstrApiErrTitle.isEmpty()) {
+                                    if (mstrApiErrMsg.isEmpty()) {
+                                        CommonUtils.createErrorAlertDialog(LoginSignupActivity.this, mstrApiErrTitle).show();
+                                    }
+                                    else {
+                                        CommonUtils.createErrorAlertDialog(LoginSignupActivity.this, mstrApiErrTitle, mstrApiErrMsg).show();
+                                    }
+
+                                    return;
                                 }
 
-                                response.close();
+                                // 跳转到主页面
+                                CommonUtils.moveNextActivity(LoginSignupActivity.this, MainActivity.class, true, true);
                             }
                         });
                     }

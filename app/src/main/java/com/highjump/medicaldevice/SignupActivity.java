@@ -84,6 +84,9 @@ public class SignupActivity extends LoginSignupActivity implements View.OnClickL
 
         mProgressDialog = ProgressDialog.show(this, "", "正在注册...");
 
+        // 清空状态
+        mstrApiErrTitle = mstrApiErrMsg = "";
+
         // 调用相应的API
         APIManager.getInstance().userSignup(
                 mstrUsername,
@@ -104,39 +107,50 @@ public class SignupActivity extends LoginSignupActivity implements View.OnClickL
 
                     @Override
                     public void onResponse(Call call, final Response response) throws IOException {
-                        // UI线程上运行
+
+                        if (!response.isSuccessful()) {
+                            // 失败
+                            mstrApiErrTitle = "注册失败";
+                            mstrApiErrMsg = response.message();
+                        }
+                        else {
+                            try {
+                                // 获取返回数据
+                                ApiResponse resultObj = new ApiResponse(response.body().string());
+
+                                if (!resultObj.isSuccess()) {
+                                    mstrApiErrTitle = "注册失败";
+                                }
+                            }
+                            catch (Exception e) {
+                                // 解析失败
+                                mstrApiErrTitle = Config.STR_PARSE_FAIL;
+                                mstrApiErrTitle = e.getMessage();
+                            }
+
+                            response.close();
+                        }
+
+                        // 更新界面，UI线程上运行
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-
                                 mProgressDialog.dismiss();
 
-                                // 失败
-                                if (!response.isSuccessful()) {
-                                    CommonUtils.createErrorAlertDialog(SignupActivity.this, "注册失败", response.message()).show();
+                                // 出现了错误，直接退出
+                                if (!mstrApiErrTitle.isEmpty()) {
+                                    if (mstrApiErrMsg.isEmpty()) {
+                                        CommonUtils.createErrorAlertDialog(SignupActivity.this, mstrApiErrTitle).show();
+                                    }
+                                    else {
+                                        CommonUtils.createErrorAlertDialog(SignupActivity.this, mstrApiErrTitle, mstrApiErrMsg).show();
+                                    }
 
-                                    response.close();
                                     return;
                                 }
 
-                                try {
-                                    // 获取返回数据
-                                    ApiResponse resultObj = new ApiResponse(response.body().string());
-
-                                    if (!resultObj.isSuccess()) {
-                                        CommonUtils.createErrorAlertDialog(SignupActivity.this, "注册失败").show();
-                                        return;
-                                    }
-
-                                    // 登录
-                                    doLogin();
-                                }
-                                catch (Exception e) {
-                                    // 解析失败
-                                    CommonUtils.createErrorAlertDialog(SignupActivity.this, Config.STR_PARSE_FAIL, e.getMessage()).show();
-                                }
-
-                                response.close();
+                                // 登录
+                                doLogin();
                             }
                         });
                     }

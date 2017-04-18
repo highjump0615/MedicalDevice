@@ -28,6 +28,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
     private User mCurrentUser;
 
+    // 调用服务状态
+    private String mstrApiErr = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +63,9 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
      * 获取用户信息
      */
     public void getUserInfo() {
+        // 清空状态
+        mstrApiErr = "";
+
         // 调用相应的API
         APIManager.getInstance().getUserInfo(
                 mCurrentUser.getId(),
@@ -78,45 +84,47 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
 
                     @Override
                     public void onResponse(Call call, final Response response) throws IOException {
-                        // UI线程上运行
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
 
-                                // 失败
-                                if (!response.isSuccessful()) {
-                                    mTextNotice.setText(response.message());
+                        if (!response.isSuccessful()) {
+                            // 失败
+                            mstrApiErr = response.message();
+                        }
+                        else {
+                            try {
+                                // 获取返回数据
+                                ApiResponse resultObj = new ApiResponse(response.body().string());
 
-                                    response.close();
-                                    return;
+                                if (!resultObj.isSuccess()) {
+                                    mstrApiErr = "获取失败";
                                 }
-
-                                try {
-                                    // 获取返回数据
-                                    ApiResponse resultObj = new ApiResponse(response.body().string());
-
-                                    if (!resultObj.isSuccess()) {
-                                        mTextNotice.setText("获取失败");
-
-                                        response.close();
-                                        return;
-                                    }
-
+                                else {
                                     // 补充用户信息
                                     JSONObject jsonRes = resultObj.getResult();
 
                                     mCurrentUser.setName(jsonRes.getString("name"));
                                     mCurrentUser.setIdCode(jsonRes.getString("idCode"));
-
-                                    // 显示更新
-                                    updateUserInfo();
                                 }
-                                catch (Exception e) {
-                                    // 解析失败
-                                    mTextNotice.setText(Config.STR_PARSE_FAIL);
+                            }
+                            catch (Exception e) {
+                                // 解析失败
+                                mstrApiErr = Config.STR_PARSE_FAIL;
+                            }
+
+                            response.close();
+                        }
+
+                        // 更新界面，UI线程上运行
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 出现了错误，直接退出
+                                if (!mstrApiErr.isEmpty()) {
+                                    mTextNotice.setText(mstrApiErr);
+                                    return;
                                 }
 
-                                response.close();
+                                // 显示更新
+                                updateUserInfo();
                             }
                         });
                     }

@@ -33,6 +33,7 @@ public class MedicalHistoryActivity extends HistoryActivity {
 
     private TextView mTextCount;
 
+    // 调用服务状态
     private String mstrApiErr = "";
 
     ArrayList<TreatLog> maryData = new ArrayList<TreatLog>();
@@ -102,6 +103,9 @@ public class MedicalHistoryActivity extends HistoryActivity {
             mnCurrentCount = 0;
             mbNeedMore = false;
         }
+
+        // 清空状态
+        mstrApiErr = "";
 
         // 调用相应的API
         APIManager.getInstance().getTreatHistory(
