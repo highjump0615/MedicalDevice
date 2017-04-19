@@ -27,6 +27,7 @@ public class APIManager {
     private final String ACTION_SET_USERINFO = "sendMemberInfo";
     private final String ACTION_GET_TREATHISTORY = "listTreat";
     private final String ACTION_GET_USERLIST = "listMember";
+    private final String ACTION_GET_DEVICELIST = "listDevice";
 
     // 参数名称
     private final String PARAM_ACTION = "action";
@@ -184,6 +185,30 @@ public class APIManager {
         }
 
         sendToServiceByPost(API_PATH_DATA, ACTION_GET_USERLIST, objData.toString(), responseCallback);
+    }
+
+    /**
+     * 获取设备列表
+     * @param user 用户信息
+     * @param currentPage 当前页号
+     * @param responseCallback 回调函数
+     */
+    public void getDeviceList(User user,
+                            int currentPage,
+                            Callback responseCallback) {
+
+        JSONObject objData = new JSONObject();
+        try {
+            objData.put("userID", user.getId());
+            objData.put("loginID", user.getLoginId());
+            objData.put("currentPage", currentPage);
+            objData.put("pageSize", Config.PAGE_SIZE);
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendToServiceByPost(API_PATH_DATA, ACTION_GET_DEVICELIST, objData.toString(), responseCallback);
     }
 
     /**

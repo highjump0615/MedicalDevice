@@ -102,7 +102,7 @@ public class StatUserAdapter extends BaseAdapter {
     }
 
     /**
-     * ViewHodler
+     * ViewHolder
      */
     private static class ViewHolderItem extends BaseAdapter.ViewHolderItem {
 

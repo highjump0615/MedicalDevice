@@ -34,9 +34,6 @@ public class StatisticsUserActivity extends HistoryActivity {
         // 初始化toolbar
         initToolbar();
 
-        // 初始化toolbar
-        initToolbar();
-
         // 初始化列表
         initList();
 
