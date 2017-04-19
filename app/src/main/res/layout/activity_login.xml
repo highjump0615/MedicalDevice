@@ -27,7 +27,7 @@
             android:paddingStart="@dimen/login_text_padding"
             android:paddingEnd="@dimen/login_text_padding"
             android:hint="请输入手机号"
-            android:inputType="number"
+            android:inputType="text"
             android:background="@drawable/primary_border_round"/>
 
         <EditText

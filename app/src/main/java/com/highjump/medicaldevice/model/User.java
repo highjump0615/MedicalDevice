@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.highjump.medicaldevice.utils.CommonUtils;
 import com.highjump.medicaldevice.utils.Config;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 public class User {
 
@@ -28,6 +31,8 @@ public class User {
     private String idCode;
     // 用户角色
     private String userRole;
+    // 注册时间
+    private Date time;
 
     // 保存实例, 后来用于获取当前用户
     private static User mInstance = null;
@@ -44,6 +49,22 @@ public class User {
         }
 
         mInstance = this;
+    }
+
+    /**
+     * 构造函数 - 获取用户列表时使用
+     * @param data
+     */
+    public User(JSONObject data) {
+        try {
+            username = data.getString("username");;
+            name = data.getString("name");
+            // string转date
+            time = CommonUtils.stringToDate(data.getString("registerTime"));
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -123,5 +144,13 @@ public class User {
         }
 
         return bRes;
+    }
+
+    /**
+     * 获取注册时间
+     * @return
+     */
+    public String getTimeString() {
+        return CommonUtils.dateToString(time);
     }
 }

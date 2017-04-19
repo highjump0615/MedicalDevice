@@ -17,11 +17,11 @@ import java.util.Date;
 
 public class TreatLog {
 
-    // 用户名
+    // 理疗时间
     private Date time;
-    // 用户标识
+    // 理疗地址
     private String place;
-    // 登录编号
+    // 设备编码
     private String deviceCode;
 
     public TreatLog(JSONObject data) {

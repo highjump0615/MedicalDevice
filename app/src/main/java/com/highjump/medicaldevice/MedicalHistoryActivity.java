@@ -2,8 +2,6 @@ package com.highjump.medicaldevice;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,14 +25,7 @@ import okhttp3.Response;
 
 public class MedicalHistoryActivity extends HistoryActivity {
 
-    private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLayoutManager;
     private MedicalHistoryAdapter mAdapter;
-
-    private TextView mTextCount;
-
-    // 调用服务状态
-    private String mstrApiErr = "";
 
     ArrayList<TreatLog> maryData = new ArrayList<TreatLog>();
 
@@ -46,19 +37,11 @@ public class MedicalHistoryActivity extends HistoryActivity {
         // 初始化toolbar
         initToolbar();
 
-        // 初始化控件
-        mTextCount = (TextView) findViewById(R.id.text_count);
-
         // 初始化列表
-        mRecyclerView = (RecyclerView) findViewById(R.id.list);
-
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        initList();
 
         mAdapter = new MedicalHistoryAdapter(this, maryData);
         mRecyclerView.setAdapter(mAdapter);
-
-        initSwipeRefresh();
 
         // 获取数据
         new Handler().postDelayed(new Runnable() {

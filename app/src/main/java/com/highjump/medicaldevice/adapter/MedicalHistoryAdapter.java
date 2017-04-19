@@ -104,7 +104,7 @@ public class MedicalHistoryAdapter extends BaseAdapter {
     }
 
     /**
-     * ViewHodler
+     * ViewHolder
      */
     private static class ViewHolderItem extends BaseAdapter.ViewHolderItem {
 
