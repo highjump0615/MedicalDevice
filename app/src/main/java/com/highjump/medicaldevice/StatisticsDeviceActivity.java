@@ -2,14 +2,12 @@ package com.highjump.medicaldevice;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.highjump.medicaldevice.adapter.StatDeviceAdapter;
 import com.highjump.medicaldevice.api.APIManager;
 import com.highjump.medicaldevice.api.ApiResponse;
-import com.highjump.medicaldevice.api.Device;
+import com.highjump.medicaldevice.model.Device;
 import com.highjump.medicaldevice.model.User;
 import com.highjump.medicaldevice.utils.Config;
 

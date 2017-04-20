@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.highjump.medicaldevice.R;
 import com.highjump.medicaldevice.StatisticsDeviceActivity;
-import com.highjump.medicaldevice.api.Device;
+import com.highjump.medicaldevice.model.Device;
 
 import java.util.ArrayList;
 

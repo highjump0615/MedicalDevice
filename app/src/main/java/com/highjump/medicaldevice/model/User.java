@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
-public class User {
+public class User extends Usage {
 
     public static String USER_SYSADMIN = "系统管理员";
     public static String USER_DEVADMIN = "设备管理员";
@@ -38,6 +38,8 @@ public class User {
     private static User mInstance = null;
 
     public User(String uname, JSONObject data) {
+        super(null);
+
         try {
             username = uname;
             loginId = data.getString("loginID");
@@ -56,6 +58,8 @@ public class User {
      * @param data
      */
     public User(JSONObject data) {
+        super(data);
+
         try {
             username = data.getString("username");;
             name = data.getString("name");
