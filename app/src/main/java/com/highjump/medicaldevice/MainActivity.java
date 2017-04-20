@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,11 +32,16 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+import com.gizwits.gizwifisdk.api.GizWifiSDK;
+import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
+import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
 import com.highjump.medicaldevice.model.User;
 import com.highjump.medicaldevice.utils.CommonUtils;
 import com.highjump.medicaldevice.utils.Config;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -52,6 +59,17 @@ public class MainActivity extends AppCompatActivity
 
     // 当前用户
     private User mCurrentUser;
+
+    private GizWifiSDKListener gizWifiSDKListener = new GizWifiSDKListener() {
+        @Override
+        public void didUserLogin(GizWifiErrorCode result, String uid, String token) {
+            super.didUserLogin(result, uid, token);
+
+            // 保存参数
+            CommonUtils.getInstance().setGzUid(uid);
+            CommonUtils.getInstance().setGzToken(token);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +143,37 @@ public class MainActivity extends AppCompatActivity
         button.setOnClickListener(this);
 
         getPermissions();
+
+        //
+        // 初始化机智云SDK
+        //
+        List<String> productKeyList = new ArrayList<String>();
+        ConcurrentHashMap<String, String> serverMap = new ConcurrentHashMap<String, String>();
+
+        serverMap.put("openAPIInfo", "api.gizwits.com");
+        serverMap.put("siteInfo", "site.gizwits.com");
+        serverMap.put("pushInfo", "");
+
+        GizWifiSDK.sharedInstance().startWithAppID(
+                this,
+                Config.APP_ID,
+                Config.APP_SECRET,
+                productKeyList,
+                serverMap,
+                false
+        );
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                GizWifiSDK.sharedInstance().userLoginAnonymous();
+            }
+        }, 500);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -251,6 +300,9 @@ public class MainActivity extends AppCompatActivity
 
         // 地图生命周期管理
         mMapView.onResume();
+
+        // 每次返回activity都要注册一次sdk监听器，保证sdk状态能正确回调
+        GizWifiSDK.sharedInstance().setListener(gizWifiSDKListener);
     }
 
     @Override

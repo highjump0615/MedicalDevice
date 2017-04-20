@@ -11,4 +11,8 @@ public class Config {
     public static final String STR_PARSE_FAIL = "解析响应数据失败";
 
     public static final int PAGE_SIZE = 30;
+
+    // 机智云参数
+    public static final String APP_ID = "60c97add22ad49a0a2c5d1875caf4617";
+    public static final String APP_SECRET = "b2af3142f93e45078643785aafb49c14";
 }

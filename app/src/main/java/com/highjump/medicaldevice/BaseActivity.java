@@ -27,4 +27,26 @@ public class BaseActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 从网址获取参数
+     * @param url
+     * @param param
+     * @return
+     */
+    protected String getParamFomeUrl(String url, String param) {
+        String value = "";
+
+        int startindex = url.indexOf(param + "=");
+        startindex += (param.length() + 1);
+
+        String subString = url.substring(startindex);
+        int endindex = subString.indexOf("&");
+
+        if (endindex == -1) {
+            value = subString;
+        } else {
+            value = subString.substring(0, endindex);
+        }
+        return value;
+    }
 }

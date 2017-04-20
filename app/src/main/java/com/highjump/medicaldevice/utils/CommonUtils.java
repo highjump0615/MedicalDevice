@@ -13,6 +13,43 @@ import java.util.Date;
 
 public class CommonUtils {
 
+    // 机智云参数
+    private String gzUid;
+    private String gzToken;
+
+    // 实例； 第一次被调用的时候会设置
+    private static CommonUtils mInstance = null;
+
+    /**
+     * 获取实例
+     */
+    public static CommonUtils getInstance() {
+        if (mInstance == null) {
+            mInstance = new CommonUtils();
+        }
+
+        return mInstance;
+    }
+
+    //
+    // Getter & Setter
+    //
+    public String getGzUid() {
+        return gzUid;
+    }
+
+    public void setGzUid(String gzUid) {
+        this.gzUid = gzUid;
+    }
+
+    public String getGzToken() {
+        return gzToken;
+    }
+
+    public void setGzToken(String gzToken) {
+        this.gzToken = gzToken;
+    }
+
     /**
      * 跳转到指定的activity
      */

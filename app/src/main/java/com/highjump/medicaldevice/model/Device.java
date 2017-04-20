@@ -17,6 +17,15 @@ public class Device extends Usage {
     // 放置时间
     private Date time;
 
+    private String ipAddress;
+    private String macAddress;
+
+    public Device(String did) {
+        super(null);
+
+        deviceCode = did;
+    }
+
     public Device(JSONObject data) {
         super(data);
 
@@ -45,5 +54,21 @@ public class Device extends Usage {
      */
     public String getTimeString() {
         return CommonUtils.dateToString(time);
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public String getMacAddress() {
+        return macAddress;
+    }
+
+    public void setMacAddress(String macAddress) {
+        this.macAddress = macAddress;
     }
 }

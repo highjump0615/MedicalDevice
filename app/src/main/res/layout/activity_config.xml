@@ -30,9 +30,9 @@
                 android:layout_height="wrap_content"
                 android:text="设置编码："/>
             <EditText
+                android:id="@+id/edit_code"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/login_text_height"
-                android:inputType="text" />
+                android:layout_height="@dimen/login_text_height" />
         </LinearLayout>
 
         <!-- 放置地点 -->
@@ -46,6 +46,7 @@
                 android:layout_height="wrap_content"
                 android:text="放置地点："/>
             <EditText
+                android:id="@+id/edit_address"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/login_text_height"
                 android:inputType="text"/>
@@ -62,6 +63,7 @@
                 android:layout_height="wrap_content"
                 android:text="网络："/>
             <Spinner
+                android:id="@+id/spin_wifi"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/login_text_height"
                 android:entries="@array/wifis"/>
@@ -78,6 +80,7 @@
                 android:layout_height="wrap_content"
                 android:text="密码："/>
             <EditText
+                android:id="@+id/edit_password"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/login_text_height"
                 android:inputType="textPassword"/>
@@ -85,13 +88,14 @@
 
         <!-- 提示 -->
         <TextView
+            android:id="@+id/text_notice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/login_margin_vert"
-            android:gravity="center"
-            android:text="正在搜寻设备"/>
+            android:gravity="center" />
         
         <Button
+            android:id="@+id/but_configure"
             android:layout_width="match_parent"
             android:layout_height="@dimen/login_text_height"
             android:layout_marginTop="30dp"
