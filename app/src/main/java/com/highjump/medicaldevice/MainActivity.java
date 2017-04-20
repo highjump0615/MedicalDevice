@@ -448,6 +448,8 @@ public class MainActivity extends AppCompatActivity
 
                 mBaiduMap.setMyLocationData(locData);
 
+                CommonUtils.getInstance().setCurrentLocation(location);
+
                 // 第一次定位时, 将地图位置移动到当前位置
                 if (mbFirstLocation) {
                     mbFirstLocation = false;

@@ -1,6 +1,9 @@
 package com.highjump.medicaldevice.api;
 
+import com.baidu.location.BDLocation;
+import com.highjump.medicaldevice.model.Device;
 import com.highjump.medicaldevice.model.User;
+import com.highjump.medicaldevice.utils.CommonUtils;
 import com.highjump.medicaldevice.utils.Config;
 
 import org.json.JSONException;
@@ -8,6 +11,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +34,7 @@ public class APIManager {
     private final String ACTION_GET_DEVICELIST = "listDevice";
     private final String ACTION_GET_USELIST_DEVICE = "totalDeviceUsage";
     private final String ACTION_GET_USELIST_USER = "totalMemberUsage";
+    private final String ACTION_SET_DEVICE = "saveDevice";
 
     // 参数名称
     private final String PARAM_ACTION = "action";
@@ -244,6 +249,50 @@ public class APIManager {
         }
 
         sendToServiceByPost(API_PATH_DATA, action, objData.toString(), responseCallback);
+    }
+
+    /**
+     * 提交设备参数
+     * @param user
+     * @param device
+     * @param ssid
+     * @param password
+     * @param responseCallback
+     */
+    public void setDevice(User user,
+                          Device device,
+                          String ssid,
+                          String password,
+                          Callback responseCallback) {
+
+        JSONObject objData = new JSONObject();
+        try {
+            objData.put("userID", user.getId());
+            objData.put("loginID", user.getLoginId());
+            objData.put("deviceCode", device.getDeviceCode());
+            objData.put("ip", device.getIpAddress());
+            objData.put("port", "");
+            objData.put("mac", device.getMacAddress());
+            objData.put("ssid", ssid);
+            objData.put("password", password);
+            objData.put("leasePlace", device.getPlace());
+            objData.put("leaseTime", CommonUtils.dateToString(new Date()));
+
+            // 位置
+            String strLocation = "";
+
+            BDLocation location = CommonUtils.getInstance().getCurrentLocation();
+            if (location != null) {
+                strLocation = location.getLatitude() + "," + location.getLongitude();
+            }
+
+            objData.put("location", strLocation);
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendToServiceByPost(API_PATH_DATA, ACTION_SET_DEVICE, objData.toString(), responseCallback);
     }
 
     /**

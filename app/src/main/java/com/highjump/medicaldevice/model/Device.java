@@ -71,4 +71,8 @@ public class Device extends Usage {
     public void setMacAddress(String macAddress) {
         this.macAddress = macAddress;
     }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
 }

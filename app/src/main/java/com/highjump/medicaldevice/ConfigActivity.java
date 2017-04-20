@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gizwits.gizwifisdk.api.GizWifiDevice;
@@ -22,12 +23,21 @@ import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.api.GizWifiSSID;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
+import com.highjump.medicaldevice.api.APIManager;
+import com.highjump.medicaldevice.api.ApiResponse;
 import com.highjump.medicaldevice.model.Device;
+import com.highjump.medicaldevice.model.User;
 import com.highjump.medicaldevice.utils.CommonUtils;
+import com.highjump.medicaldevice.utils.Config;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class ConfigActivity extends BaseActivity implements View.OnClickListener {
 
@@ -37,12 +47,16 @@ public class ConfigActivity extends BaseActivity implements View.OnClickListener
     private Device mDevice;
     private EditText mEditAddress;
     private EditText mEditPassword;
+    private TextView mTextNotice;
 
     public final static int REQUEST_CODE = 1;
 
     private WifiManager mWifiManager;
     private List<ScanResult> mListWifi;
     private int mnWifiIndex = 0;
+
+    // 调用服务状态
+    private String mstrApiErr = "";
 
     private GizWifiSDKListener gizWifiSDKListener = new GizWifiSDKListener() {
 
@@ -178,6 +192,7 @@ public class ConfigActivity extends BaseActivity implements View.OnClickListener
         button.setOnClickListener(this);
         mEditAddress = (EditText) findViewById(R.id.edit_address);
         mEditPassword = (EditText) findViewById(R.id.edit_password);
+        mTextNotice = (TextView) findViewById(R.id.text_notice);
     }
 
     @Override
@@ -247,5 +262,74 @@ public class ConfigActivity extends BaseActivity implements View.OnClickListener
         if (mListWifi.size() == 0) {
             CommonUtils.createErrorAlertDialog(this, "请输入网络").show();
         }
+
+        mTextNotice.setText("正在保存...");
+
+        String strSsid = mListWifi.get(mnWifiIndex).SSID;
+
+        // 清空状态
+        mstrApiErr = "";
+
+        // 放置地址
+        mDevice.setPlace(strAddress);
+
+        // 调用相应的API
+        APIManager.getInstance().setDevice(
+                User.currentUser(null),
+                mDevice,
+                strSsid,
+                mEditPassword.getText().toString(),
+                new Callback() {
+                    @Override
+                    public void onFailure(Call call, final IOException e) {
+                        // UI线程上运行
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mTextNotice.setText(e.getMessage());
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, final Response response) throws IOException {
+
+                        if (!response.isSuccessful()) {
+                            // 失败
+                            mstrApiErr = response.message();
+                        }
+
+                        try {
+                            // 获取返回数据
+                            ApiResponse resultObj = new ApiResponse(response.body().string());
+
+                            if (!resultObj.isSuccess()) {
+                                mstrApiErr = "保存失败";
+                            }
+                        }
+                        catch (Exception e) {
+                            // 解析失败
+                            mstrApiErr = Config.STR_PARSE_FAIL;
+                        }
+
+                        response.close();
+
+                        // 更新界面，UI线程上运行
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 出现了错误，直接退出
+                                if (!mstrApiErr.isEmpty()) {
+                                    mTextNotice.setText(mstrApiErr);
+                                    return;
+                                }
+
+                                // 返回
+                                onBackPressed();
+                            }
+                        });
+                    }
+                }
+        );
     }
 }

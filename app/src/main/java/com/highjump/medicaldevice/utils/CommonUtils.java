@@ -7,6 +7,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 
+import com.baidu.location.BDLocation;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,6 +18,8 @@ public class CommonUtils {
     // 机智云参数
     private String gzUid;
     private String gzToken;
+
+    private BDLocation currentLocation;
 
     // 实例； 第一次被调用的时候会设置
     private static CommonUtils mInstance = null;
@@ -48,6 +52,14 @@ public class CommonUtils {
 
     public void setGzToken(String gzToken) {
         this.gzToken = gzToken;
+    }
+
+    public BDLocation getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(BDLocation currentLocation) {
+        this.currentLocation = currentLocation;
     }
 
     /**
