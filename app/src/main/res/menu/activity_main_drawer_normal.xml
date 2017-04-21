@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group>
+        <item
+            android:id="@+id/nav_medicalhistory"
+            android:icon="@drawable/ic_menu_history"
+            android:title="理疗记录" />
+        <item
+            android:id="@+id/nav_userinfo"
+            android:icon="@drawable/ic_menu_user"
+            android:title="@string/action_userinfo" />
+    </group>
+
+</menu>

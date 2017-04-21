@@ -53,11 +53,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="会员总数: " />
+                        android:text="使用总数: " />
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="34" />
+                        android:id="@id/text_count"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -68,17 +68,32 @@
                 android:id="@android:id/tabcontent">
 
                 <!-- 设备列表 -->
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/listdevice"
+                <android.support.v4.widget.SwipeRefreshLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/swiperefresh_device"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/list_device"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </android.support.v4.widget.SwipeRefreshLayout>
 
                 <!-- 会员列表 -->
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/listuser"
+                <android.support.v4.widget.SwipeRefreshLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/swiperefresh_user"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/history_top_margin" />
+                    android:layout_height="match_parent">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/list_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </android.support.v4.widget.SwipeRefreshLayout>
 
             </FrameLayout>
 

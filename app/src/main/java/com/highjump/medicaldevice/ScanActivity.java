@@ -1,6 +1,7 @@
 package com.highjump.medicaldevice;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -22,10 +23,25 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
 
     private ZXingScannerView mScannerView;
 
+    public static final String SCAN_CODE = "scan_code";
+    public static final String SCAN_TYPE = "scan_type";
+
+    public static final int SCAN_TYPE_START = 0;
+    public static final int SCAN_TYPE_GETCODE = 1;
+
+    // 扫码页面类型
+    private int mnType = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
+
+        // 获取类型
+        Intent intent = getIntent();
+        if (intent.hasExtra(SCAN_TYPE)) {
+            mnType = intent.getIntExtra(SCAN_TYPE, 0);
+        }
 
         // 初始化toolbar
         initToolbar();
@@ -42,10 +58,22 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
 
     @Override
     public void handleResult(Result result) {
-        Toast.makeText(this, result.getText(), Toast.LENGTH_SHORT).show();
 
-        // 跳转到设备页面
-        CommonUtils.moveNextActivity(ScanActivity.this, DeviceActivity.class, true);
+        // 打开设备
+        if (mnType == ScanActivity.SCAN_TYPE_START) {
+            // 跳转到设备页面
+            Intent intent = new Intent(this, DeviceActivity.class);
+            intent.putExtra(ScanActivity.SCAN_CODE, result.getText());
+            startActivity(intent);
+        }
+        // 获取设备编号
+        else {
+            Intent intent = new Intent();
+            intent.putExtra(ScanActivity.SCAN_CODE, result.getText());
+            setResult(ConfigActivity.REQUEST_CODE, intent);
+        }
+
+        finish();
     }
 
     @Override

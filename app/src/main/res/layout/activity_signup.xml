@@ -20,6 +20,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
     
         <EditText
+            android:id="@+id/edit_username"
             android:layout_width="match_parent"
             android:layout_height="@dimen/login_text_height"
             android:layout_marginTop="@dimen/login_margin_vert"
@@ -30,6 +31,7 @@
             android:background="@drawable/primary_border_round"/>
 
         <EditText
+            android:id="@+id/edit_password"
             android:layout_width="match_parent"
             android:layout_height="@dimen/login_text_height"
             android:layout_marginTop="@dimen/login_margin_vert"
@@ -40,6 +42,7 @@
             android:background="@drawable/primary_border_round"/>
 
         <EditText
+            android:id="@+id/edit_cpassword"
             android:layout_width="match_parent"
             android:layout_height="@dimen/login_text_height"
             android:layout_marginTop="@dimen/login_margin_vert"
@@ -50,6 +53,7 @@
             android:background="@drawable/primary_border_round"/>
 
         <Button
+            android:id="@+id/but_signup"
             android:layout_width="match_parent"
             android:layout_height="@dimen/login_text_height"
             android:layout_marginTop="30dp"
