@@ -74,6 +74,7 @@
             android:layout_marginTop="@dimen/login_margin_vert"
             android:gravity="center_horizontal">
             <Button
+                android:id="@+id/but_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/login_margin_vert"
@@ -81,6 +82,7 @@
                 android:textColor="@android:color/white"
                 android:background="@drawable/but_round_primary"/>
             <Button
+                android:id="@+id/but_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/login_margin_vert"

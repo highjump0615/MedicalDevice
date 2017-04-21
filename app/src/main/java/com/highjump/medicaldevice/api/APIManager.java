@@ -37,6 +37,7 @@ public class APIManager {
     private final String ACTION_SET_DEVICE = "saveDevice";
     private final String ACTION_USE_DEVICE = "useDevice";
     private final String ACTION_FIND_DEVICE = "lookforDevices";
+    private final String ACTION_SET_PASSWORD = "setPassword";
 
     // 参数名称
     private final String PARAM_ACTION = "action";
@@ -342,6 +343,29 @@ public class APIManager {
         }
 
         sendToServiceByPost(API_PATH_DATA, ACTION_FIND_DEVICE, objData.toString(), responseCallback);
+    }
+
+    /**
+     * 修改密码
+     * @param user 用户信息
+     * @param password 新的密码
+     * @param responseCallback 回调
+     */
+    public void setPassword(User user,
+                            String password,
+                            Callback responseCallback) {
+
+        JSONObject objData = new JSONObject();
+        try {
+            objData.put("userID", user.getId());
+            objData.put("loginID", user.getLoginId());
+            objData.put("password", password);
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendToServiceByPost(API_PATH_DATA, ACTION_SET_PASSWORD, objData.toString(), responseCallback);
     }
 
     /**
