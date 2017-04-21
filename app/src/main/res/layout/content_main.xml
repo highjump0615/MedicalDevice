@@ -27,6 +27,7 @@
         android:background="@drawable/but_white_border"/>
 
     <ImageButton
+        android:id="@+id/but_refresh"
         android:layout_width="@dimen/main_but_height"
         android:layout_height="@dimen/main_but_height"
         android:layout_alignParentBottom="true"

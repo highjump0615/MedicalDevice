@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +20,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -26,22 +29,37 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
+import com.highjump.medicaldevice.api.APIManager;
+import com.highjump.medicaldevice.api.ApiResponse;
+import com.highjump.medicaldevice.model.Device;
 import com.highjump.medicaldevice.model.User;
 import com.highjump.medicaldevice.utils.CommonUtils;
 import com.highjump.medicaldevice.utils.Config;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -59,6 +77,11 @@ public class MainActivity extends AppCompatActivity
 
     // 当前用户
     private User mCurrentUser;
+
+    // 调用服务状态
+    private String mstrApiErr = "";
+
+    private ArrayList<Device> maryDevice = new ArrayList<Device>();
 
     private GizWifiSDKListener gizWifiSDKListener = new GizWifiSDKListener() {
         @Override
@@ -140,6 +163,8 @@ public class MainActivity extends AppCompatActivity
 
         // 扫码按钮
         Button button = (Button)findViewById(R.id.but_scan);
+        button.setOnClickListener(this);
+        ImageButton imageButton = (ImageButton)findViewById(R.id.but_refresh);
         button.setOnClickListener(this);
 
         getPermissions();
@@ -321,6 +346,11 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 break;
+
+            case R.id.but_refresh:
+                // 获取周边设备
+                findDevices();
+                break;
         }
     }
 
@@ -457,6 +487,9 @@ public class MainActivity extends AppCompatActivity
                     LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
                     MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
                     mBaiduMap.animateMapStatus(u);
+
+                    // 获取周边设备
+                    findDevices();
                 }
             }
         }
@@ -465,5 +498,84 @@ public class MainActivity extends AppCompatActivity
         public void onConnectHotSpotMessage(String s, int i) {
 
         }
+    }
+
+    /**
+     * 获取周边设备
+     */
+    private void findDevices() {
+        if (CommonUtils.getInstance().getCurrentLocation() == null) {
+            return;
+        }
+
+        // 清空状态
+        mstrApiErr = "";
+
+        // 调用相应的API
+        APIManager.getInstance().findDevice(
+                new Callback() {
+                    @Override
+                    public void onFailure(Call call, final IOException e) {
+                        // UI线程上运行
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, final Response response) throws IOException {
+
+                        if (!response.isSuccessful()) {
+                            // 失败
+                            mstrApiErr = response.message();
+                        }
+
+                        try {
+                            // 获取返回数据
+                            ApiResponse resultObj = new ApiResponse(response.body().string());
+
+                            maryDevice.clear();
+
+                            // 设备
+                            JSONArray aryJson = resultObj.getResult().getJSONArray("devices");
+                            for (int i = 0; i < aryJson.length(); i++) {
+                                JSONObject jsonObj = aryJson.getJSONObject(i);
+                                Device newDevice = new Device(jsonObj);
+                                maryDevice.add(newDevice);
+                            }
+                        }
+                        catch (Exception e) {
+                            // 解析失败
+                            mstrApiErr = Config.STR_PARSE_FAIL;
+                        }
+
+                        response.close();
+
+                        // 更新界面，UI线程上运行
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 出现了错误，直接退出
+                                if (!mstrApiErr.isEmpty()) {
+                                    Toast.makeText(MainActivity.this, mstrApiErr, Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                // 地图上标注
+                                for (Device device : maryDevice) {
+                                    LatLng point = new LatLng(device.getLatitude(), device.getLongitude());
+                                    BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.ic_map_mark);
+
+                                    OverlayOptions option = new MarkerOptions().position(point).icon(bitmap);
+                                    mBaiduMap.addOverlay(option);
+                                }
+                            }
+                        });
+                    }
+                }
+        );
     }
 }

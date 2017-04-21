@@ -36,6 +36,7 @@ public class APIManager {
     private final String ACTION_GET_USELIST_USER = "totalMemberUsage";
     private final String ACTION_SET_DEVICE = "saveDevice";
     private final String ACTION_USE_DEVICE = "useDevice";
+    private final String ACTION_FIND_DEVICE = "lookforDevices";
 
     // 参数名称
     private final String PARAM_ACTION = "action";
@@ -253,6 +254,21 @@ public class APIManager {
     }
 
     /**
+     * 获取位置文字
+     * @return
+     */
+    private String getLocationFormatted() {
+        String strLocation = "";
+
+        BDLocation location = CommonUtils.getInstance().getCurrentLocation();
+        if (location != null) {
+            strLocation = location.getLatitude() + "," + location.getLongitude();
+        }
+
+        return strLocation;
+    }
+
+    /**
      * 提交设备参数
      * @param user
      * @param device
@@ -278,16 +294,7 @@ public class APIManager {
             objData.put("password", password);
             objData.put("leasePlace", device.getPlace());
             objData.put("leaseTime", CommonUtils.dateToString(new Date()));
-
-            // 位置
-            String strLocation = "";
-
-            BDLocation location = CommonUtils.getInstance().getCurrentLocation();
-            if (location != null) {
-                strLocation = location.getLatitude() + "," + location.getLongitude();
-            }
-
-            objData.put("location", strLocation);
+            objData.put("location", getLocationFormatted());
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -318,6 +325,23 @@ public class APIManager {
         }
 
         sendToServiceByPost(API_PATH_DATA, ACTION_USE_DEVICE, objData.toString(), responseCallback);
+    }
+
+    /**
+     * 获取周边设备
+     * @param responseCallback
+     */
+    public void findDevice(Callback responseCallback) {
+
+        JSONObject objData = new JSONObject();
+        try {
+            objData.put("currentLocation", getLocationFormatted());
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendToServiceByPost(API_PATH_DATA, ACTION_FIND_DEVICE, objData.toString(), responseCallback);
     }
 
     /**

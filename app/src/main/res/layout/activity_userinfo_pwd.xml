@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:text="新密码："/>
             <EditText
+                android:id="@+id/edit_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
@@ -54,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:text="确认密码："/>
             <EditText
+                android:id="@+id/edit_cpassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />

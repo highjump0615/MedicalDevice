@@ -20,6 +20,11 @@ public class Device extends Usage {
     private String ipAddress;
     private String macAddress;
 
+    private double latitude;
+    private double longitude;
+
+    private String status;
+
     public Device(String did) {
         super(null);
 
@@ -30,8 +35,22 @@ public class Device extends Usage {
         super(data);
 
         try {
-            place = data.getString("leasePlace");
             deviceCode = data.getString("deviceCode");
+
+            // 定位
+            if (data.has("location")) {
+                // 解析定位信息
+                String strLocation[] = data.getString("location").split(",");
+                latitude = Double.parseDouble(strLocation[0]);
+                longitude = Double.parseDouble(strLocation[1]);
+            }
+
+            // 状态
+            if (data.has("deviceStatus")) {
+                status = data.getString("deviceStatus");
+            }
+
+            place = data.getString("leasePlace");
             // string转date
             time = CommonUtils.stringToDate(data.getString("leaseTime"));
         }
@@ -74,5 +93,17 @@ public class Device extends Usage {
 
     public void setPlace(String place) {
         this.place = place;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }
