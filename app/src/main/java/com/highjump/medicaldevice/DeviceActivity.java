@@ -16,11 +16,20 @@ import com.gizwits.gizwifisdk.api.GizWifiDevice;
 import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
 import com.gizwits.gizwifisdk.listener.GizWifiDeviceListener;
+import com.highjump.medicaldevice.api.APIManager;
+import com.highjump.medicaldevice.api.ApiResponse;
 import com.highjump.medicaldevice.model.Device;
+import com.highjump.medicaldevice.model.User;
 import com.highjump.medicaldevice.utils.CommonUtils;
+import com.highjump.medicaldevice.utils.Config;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class DeviceActivity extends DeviceBaseActivity implements View.OnClickListener {
 
@@ -31,6 +40,9 @@ public class DeviceActivity extends DeviceBaseActivity implements View.OnClickLi
     private GizWifiDevice mDevice;
 
     private final int SN_START = 1;
+
+    // 调用服务状态
+    private String mstrApiErr = "";
 
     /**
      * 设备监听
@@ -51,6 +63,9 @@ public class DeviceActivity extends DeviceBaseActivity implements View.OnClickLi
                 // 显示提示对话框
                 showDialogView(true, mLayoutDialogNotice, true);
 
+                // 提交使用记录
+                setUseDevice();
+
                 // 解除绑定
                 mDevice.setSubscribe(false);
 
@@ -62,6 +77,68 @@ public class DeviceActivity extends DeviceBaseActivity implements View.OnClickLi
             }
         }
     };
+
+    /**
+     * 提交使用记录
+     */
+    private void setUseDevice() {
+        // 清空状态
+        mstrApiErr = "";
+
+        // 调用相应的API
+        APIManager.getInstance().useDevice(
+                User.currentUser(null),
+                mDevice.getDid(),
+                new Callback() {
+                    @Override
+                    public void onFailure(Call call, final IOException e) {
+                        // UI线程上运行
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(DeviceActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, final Response response) throws IOException {
+
+                        if (!response.isSuccessful()) {
+                            // 失败
+                            mstrApiErr = response.message();
+                        }
+
+                        try {
+                            // 获取返回数据
+                            ApiResponse resultObj = new ApiResponse(response.body().string());
+
+                            if (!resultObj.isSuccess()) {
+                                mstrApiErr = "使用记录提交失败";
+                            }
+                        }
+                        catch (Exception e) {
+                            // 解析失败
+                            mstrApiErr = Config.STR_PARSE_FAIL;
+                        }
+
+                        response.close();
+
+                        // 更新界面，UI线程上运行
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 出现了错误，直接退出
+                                if (!mstrApiErr.isEmpty()) {
+                                    Toast.makeText(DeviceActivity.this, mstrApiErr, Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
+                        });
+                    }
+                }
+        );
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

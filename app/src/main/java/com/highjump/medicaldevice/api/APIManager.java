@@ -35,6 +35,7 @@ public class APIManager {
     private final String ACTION_GET_USELIST_DEVICE = "totalDeviceUsage";
     private final String ACTION_GET_USELIST_USER = "totalMemberUsage";
     private final String ACTION_SET_DEVICE = "saveDevice";
+    private final String ACTION_USE_DEVICE = "useDevice";
 
     // 参数名称
     private final String PARAM_ACTION = "action";
@@ -293,6 +294,30 @@ public class APIManager {
         }
 
         sendToServiceByPost(API_PATH_DATA, ACTION_SET_DEVICE, objData.toString(), responseCallback);
+    }
+
+    /**
+     * 提交使用记录
+     * @param user
+     * @param deviceCode
+     * @param responseCallback
+     */
+    public void useDevice(User user,
+                          String deviceCode,
+                          Callback responseCallback) {
+
+        JSONObject objData = new JSONObject();
+        try {
+            objData.put("userID", user.getId());
+            objData.put("loginID", user.getLoginId());
+            objData.put("deviceCode", deviceCode);
+            objData.put("startTime", CommonUtils.dateToString(new Date()));
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendToServiceByPost(API_PATH_DATA, ACTION_USE_DEVICE, objData.toString(), responseCallback);
     }
 
     /**
