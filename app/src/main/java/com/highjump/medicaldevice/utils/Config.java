@@ -13,6 +13,7 @@ public class Config {
     public static final int PAGE_SIZE = 30;
 
     // 机智云参数
-    public static final String APP_ID = "60c97add22ad49a0a2c5d1875caf4617";
-    public static final String APP_SECRET = "b2af3142f93e45078643785aafb49c14";
+    public static final String APP_ID = "8671c6bc45e44bbeb821217f6f31269b";
+    public static final String APP_SECRET = "0d57726863354221898e06a643f49e1d";
+    public static final String[] PRODUCT_KEY = {"966f64bf70534afb994b36c60363e66c"};
 }

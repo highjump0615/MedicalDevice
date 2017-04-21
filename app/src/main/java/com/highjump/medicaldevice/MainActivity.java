@@ -54,6 +54,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -165,14 +166,14 @@ public class MainActivity extends AppCompatActivity
         Button button = (Button)findViewById(R.id.but_scan);
         button.setOnClickListener(this);
         ImageButton imageButton = (ImageButton)findViewById(R.id.but_refresh);
-        button.setOnClickListener(this);
+        imageButton.setOnClickListener(this);
 
         getPermissions();
 
         //
         // 初始化机智云SDK
         //
-        List<String> productKeyList = new ArrayList<String>();
+        List<String> productKeyList = Arrays.asList(Config.PRODUCT_KEY);
         ConcurrentHashMap<String, String> serverMap = new ConcurrentHashMap<String, String>();
 
         serverMap.put("openAPIInfo", "api.gizwits.com");
@@ -510,6 +511,9 @@ public class MainActivity extends AppCompatActivity
 
         // 清空状态
         mstrApiErr = "";
+
+        // 清除当前的marker
+        mBaiduMap.clear();
 
         // 调用相应的API
         APIManager.getInstance().findDevice(

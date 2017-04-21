@@ -41,8 +41,8 @@ public class Device extends Usage {
             if (data.has("location")) {
                 // 解析定位信息
                 String strLocation[] = data.getString("location").split(",");
-                latitude = Double.parseDouble(strLocation[0]);
-                longitude = Double.parseDouble(strLocation[1]);
+                longitude = Double.parseDouble(strLocation[0]);
+                latitude = Double.parseDouble(strLocation[1]);
             }
 
             // 状态
