@@ -58,18 +58,22 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
 
     @Override
     public void handleResult(Result result) {
+
         // 打开设备
         if (mnType == ScanActivity.SCAN_TYPE_START) {
             // 跳转到设备页面
-            CommonUtils.moveNextActivity(ScanActivity.this, DeviceActivity.class, true, false);
+            Intent intent = new Intent(this, DeviceActivity.class);
+            intent.putExtra(ScanActivity.SCAN_CODE, result.getText());
+            startActivity(intent);
         }
         // 获取设备编号
         else {
             Intent intent = new Intent();
             intent.putExtra(ScanActivity.SCAN_CODE, result.getText());
             setResult(ConfigActivity.REQUEST_CODE, intent);
-            finish();
         }
+
+        finish();
     }
 
     @Override
