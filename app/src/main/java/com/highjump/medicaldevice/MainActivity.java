@@ -63,12 +63,14 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, BaiduMap.OnMapStatusChangeListener {
 
     private final int SDK_PERMISSION_REQUEST = 127;
 
     MapView mMapView = null;
     BaiduMap mBaiduMap = null;
+
+    LatLng mMapLocation;
 
     // 百度定位
     public LocationClient mLocationClient = null;
@@ -161,6 +163,7 @@ public class MainActivity extends AppCompatActivity
         mBaiduMap.setMapStatus(mapStatusUpdate);
 
         mBaiduMap.setMyLocationEnabled(true);
+        mBaiduMap.setOnMapStatusChangeListener(this);
 
         // 扫码按钮
         Button button = (Button)findViewById(R.id.but_scan);
@@ -461,6 +464,22 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onMapStatusChangeStart(MapStatus mapStatus) {
+
+    }
+
+    @Override
+    public void onMapStatusChange(MapStatus mapStatus) {
+
+    }
+
+    @Override
+    public void onMapStatusChangeFinish(MapStatus mapStatus) {
+        mMapLocation = mapStatus.target;
+        findDevices();
+    }
+
     private class MyLocationListener implements BDLocationListener {
 
         @Override
@@ -505,7 +524,18 @@ public class MainActivity extends AppCompatActivity
      * 获取周边设备
      */
     private void findDevices() {
-        if (CommonUtils.getInstance().getCurrentLocation() == null) {
+        double dLatitude, dLongitude;
+
+        // 找不到根据位置，退出
+        if (mMapLocation != null) {
+            dLatitude = mMapLocation.latitude;
+            dLongitude = mMapLocation.longitude;
+        }
+        else if (CommonUtils.getInstance().getCurrentLocation() != null) {
+            dLatitude = CommonUtils.getInstance().getCurrentLocation().getLatitude();
+            dLongitude = CommonUtils.getInstance().getCurrentLocation().getLongitude();
+        }
+        else {
             return;
         }
 
@@ -517,6 +547,8 @@ public class MainActivity extends AppCompatActivity
 
         // 调用相应的API
         APIManager.getInstance().findDevice(
+                dLatitude,
+                dLongitude,
                 new Callback() {
                     @Override
                     public void onFailure(Call call, final IOException e) {
@@ -541,14 +573,29 @@ public class MainActivity extends AppCompatActivity
                             // 获取返回数据
                             ApiResponse resultObj = new ApiResponse(response.body().string());
 
-                            maryDevice.clear();
-
                             // 设备
                             JSONArray aryJson = resultObj.getResult().getJSONArray("devices");
                             for (int i = 0; i < aryJson.length(); i++) {
                                 JSONObject jsonObj = aryJson.getJSONObject(i);
-                                Device newDevice = new Device(jsonObj);
-                                maryDevice.add(newDevice);
+                                Device deviceNew = new Device(jsonObj);
+
+                                // 查看是否已存在
+                                Device deviceExisting = null;
+                                for (Device d : maryDevice) {
+                                    if (d.getDeviceCode().equals(deviceNew.getDeviceCode())) {
+                                        deviceExisting = d;
+                                        break;
+                                    }
+                                }
+
+                                // 如果已存在，更新位置，否则添加
+                                if (deviceExisting == null) {
+                                    maryDevice.add(deviceNew);
+                                }
+                                else {
+                                    deviceExisting.setLatitude(deviceNew.getLatitude());
+                                    deviceExisting.setLongitude(deviceNew.getLongitude());
+                                }
                             }
                         }
                         catch (Exception e) {
