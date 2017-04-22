@@ -205,10 +205,17 @@ public class DeviceActivity extends DeviceBaseActivity implements View.OnClickLi
 
             case R.id.but_cancel:
                 showDialogView(false, mLayoutDialogStart, true);
+
+                // 返回
+                onBackPressed();
+
                 break;
 
             case R.id.but_ok:
                 showDialogView(false, mLayoutDialogNotice, true);
+
+                // 返回
+                onBackPressed();
 
                 // 清空数据
                 mDevice = null;
