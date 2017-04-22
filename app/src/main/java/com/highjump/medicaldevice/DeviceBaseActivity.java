@@ -9,6 +9,7 @@ import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
 import com.highjump.medicaldevice.utils.CommonUtils;
+import com.highjump.medicaldevice.utils.Config;
 
 import java.util.List;
 
@@ -109,6 +110,15 @@ public class DeviceBaseActivity extends BaseActivity {
                     getParamFomeUrl(qrCode, "did"),
                     getParamFomeUrl(qrCode, "passcode"),
                     null);
+        }
+        else if (qrCode.contains("mac=")) {
+            // 实际设备
+            GizWifiSDK.sharedInstance().bindRemoteDevice(
+                    CommonUtils.getInstance().getGzUid(),
+                    CommonUtils.getInstance().getGzToken(),
+                    getParamFomeUrl(qrCode, "mac"),
+                    Config.PRODUCT_KEY[0],
+                    Config.PRODUCT_SECRET);
         }
         else if (qrCode.contains("type=") && qrCode.contains("code=")) {
         }
