@@ -13,7 +13,7 @@ import com.highjump.medicaldevice.utils.Config;
 
 import java.util.List;
 
-public class DeviceBaseActivity extends BaseActivity {
+public abstract class DeviceBaseActivity extends BaseActivity {
     private final String TAG = ConfigActivity.class.getSimpleName();
 
     private String mstrDid;
@@ -61,6 +61,11 @@ public class DeviceBaseActivity extends BaseActivity {
                     DeviceBaseActivity.this.didDiscovered(device);
                 }
             }
+        }
+
+        @Override
+        public void didSetDeviceOnboarding(GizWifiErrorCode result, String mac, String did, String productKey) {
+            DeviceBaseActivity.this.didSetDeviceOnboarding(result, mac, did, productKey);
         }
     };
 
@@ -130,4 +135,8 @@ public class DeviceBaseActivity extends BaseActivity {
             );
         }
     }
+
+    protected void didSetDeviceOnboarding(GizWifiErrorCode result, String mac, String did, String productKey) {
+
+    };
 }
