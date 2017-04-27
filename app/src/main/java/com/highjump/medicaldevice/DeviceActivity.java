@@ -246,7 +246,7 @@ public class DeviceActivity extends DeviceBaseActivity implements View.OnClickLi
         ConcurrentHashMap<String, Object> command = new ConcurrentHashMap<String, Object>();
 
         // map中key为云端创建数据点的标识名，value为需要传输的值
-        command.put("LED_ONOFF", true);
+        command.put("power_onoff", true);
 
         // 调用write方法即可下发命令
         mDevice.write(command, SN_START);
