@@ -330,13 +330,17 @@ public class APIManager {
 
     /**
      * 获取周边设备
+     * @param latitude 纬度
+     * @param longitude 经度
      * @param responseCallback
      */
-    public void findDevice(Callback responseCallback) {
+    public void findDevice(double latitude,
+                           double longitude,
+                           Callback responseCallback) {
 
         JSONObject objData = new JSONObject();
         try {
-            objData.put("currentLocation", getLocationFormatted());
+            objData.put("currentLocation", String.valueOf(latitude) + "," +String.valueOf(longitude));
         }
         catch (JSONException e) {
             e.printStackTrace();

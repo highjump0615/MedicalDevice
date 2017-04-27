@@ -15,7 +15,7 @@
     <string name="but_cancel">取消</string>
 
     <string-array name="wifis">
-        <item>None</item>
+        <item>请切换到Wifi环境</item>
     </string-array>
 
 </resources>

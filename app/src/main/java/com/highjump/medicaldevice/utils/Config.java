@@ -16,4 +16,10 @@ public class Config {
     public static final String APP_ID = "8671c6bc45e44bbeb821217f6f31269b";
     public static final String APP_SECRET = "0d57726863354221898e06a643f49e1d";
     public static final String[] PRODUCT_KEY = {"966f64bf70534afb994b36c60363e66c"};
+    public static final String PRODUCT_SECRET = "fcbc66d32329434aab1882e4c1e29365";
+
+    // 设备热点默认前缀
+    public static final String SoftAP_Start = "XPG-GAgent";
+    // 设备热点默认密码
+    public static final String SoftAP_PSW = "123456789";
 }

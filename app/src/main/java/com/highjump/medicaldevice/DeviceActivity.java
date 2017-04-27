@@ -50,30 +50,42 @@ public class DeviceActivity extends DeviceBaseActivity implements View.OnClickLi
     protected GizWifiDeviceListener gizWifiDeviceListener = new GizWifiDeviceListener() {
 
         // 接受数据回调
-        public void didReceiveData(GizWifiErrorCode result, GizWifiDevice device, ConcurrentHashMap<String, Object> dataMap, int sn) {
+        public void didReceiveData(final GizWifiErrorCode result, GizWifiDevice device, ConcurrentHashMap<String, Object> dataMap, int sn) {
             Log.e(TAG, "result: " + result);
-
-            if (result != GizWifiErrorCode.GIZ_SDK_SUCCESS) {
-                Toast.makeText(DeviceActivity.this, "操作失败", Toast.LENGTH_SHORT).show();
-                return;
-            }
 
             // 启动指令
             if (sn == SN_START) {
-                // 显示提示对话框
-                showDialogView(true, mLayoutDialogNotice, true);
+                if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
 
-                // 提交使用记录
-                setUseDevice();
+                    // 提交使用记录
+                    setUseDevice();
 
-                // 解除绑定
-                mDevice.setSubscribe(false);
+                    // 解除绑定
+                    mDevice.setSubscribe(false);
 
-                GizWifiSDK.sharedInstance().unbindDevice(
-                        CommonUtils.getInstance().getGzUid(),
-                        CommonUtils.getInstance().getGzToken(),
-                        device.getDid()
-                );
+                    GizWifiSDK.sharedInstance().unbindDevice(
+                            CommonUtils.getInstance().getGzUid(),
+                            CommonUtils.getInstance().getGzToken(),
+                            device.getDid()
+                    );
+                }
+
+                // UI操作
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (result == GizWifiErrorCode.GIZ_SDK_SUCCESS) {
+                            // 显示提示对话框
+                            showDialogView(true, mLayoutDialogNotice, true);
+                        }
+                        else {
+                            Toast.makeText(DeviceActivity.this, "操作失败", Toast.LENGTH_SHORT).show();
+
+                            // 返回
+                            onBackPressed();
+                        }
+                    }
+                });
             }
         }
     };
@@ -205,10 +217,17 @@ public class DeviceActivity extends DeviceBaseActivity implements View.OnClickLi
 
             case R.id.but_cancel:
                 showDialogView(false, mLayoutDialogStart, true);
+
+                // 返回
+                onBackPressed();
+
                 break;
 
             case R.id.but_ok:
                 showDialogView(false, mLayoutDialogNotice, true);
+
+                // 返回
+                onBackPressed();
 
                 // 清空数据
                 mDevice = null;

@@ -103,6 +103,14 @@ public class Device extends Usage {
         return longitude;
     }
 
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
     public String getStatus() {
         return status;
     }

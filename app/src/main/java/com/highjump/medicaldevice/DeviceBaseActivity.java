@@ -9,10 +9,11 @@ import com.gizwits.gizwifisdk.api.GizWifiSDK;
 import com.gizwits.gizwifisdk.enumration.GizWifiErrorCode;
 import com.gizwits.gizwifisdk.listener.GizWifiSDKListener;
 import com.highjump.medicaldevice.utils.CommonUtils;
+import com.highjump.medicaldevice.utils.Config;
 
 import java.util.List;
 
-public class DeviceBaseActivity extends BaseActivity {
+public abstract class DeviceBaseActivity extends BaseActivity {
     private final String TAG = ConfigActivity.class.getSimpleName();
 
     private String mstrDid;
@@ -60,6 +61,11 @@ public class DeviceBaseActivity extends BaseActivity {
                     DeviceBaseActivity.this.didDiscovered(device);
                 }
             }
+        }
+
+        @Override
+        public void didSetDeviceOnboarding(GizWifiErrorCode result, String mac, String did, String productKey) {
+            DeviceBaseActivity.this.didSetDeviceOnboarding(result, mac, did, productKey);
         }
     };
 
@@ -110,6 +116,15 @@ public class DeviceBaseActivity extends BaseActivity {
                     getParamFomeUrl(qrCode, "passcode"),
                     null);
         }
+        else if (qrCode.contains("mac=")) {
+            // 实际设备
+            GizWifiSDK.sharedInstance().bindRemoteDevice(
+                    CommonUtils.getInstance().getGzUid(),
+                    CommonUtils.getInstance().getGzToken(),
+                    getParamFomeUrl(qrCode, "mac"),
+                    Config.PRODUCT_KEY[0],
+                    Config.PRODUCT_SECRET);
+        }
         else if (qrCode.contains("type=") && qrCode.contains("code=")) {
         }
         else {
@@ -120,4 +135,8 @@ public class DeviceBaseActivity extends BaseActivity {
             );
         }
     }
+
+    protected void didSetDeviceOnboarding(GizWifiErrorCode result, String mac, String did, String productKey) {
+
+    };
 }
