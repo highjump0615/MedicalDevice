@@ -9,6 +9,7 @@ import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -48,6 +49,10 @@ import com.highjump.medicaldevice.model.Device;
 import com.highjump.medicaldevice.model.User;
 import com.highjump.medicaldevice.utils.CommonUtils;
 import com.highjump.medicaldevice.utils.Config;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.PermissionListener;
+import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.RationaleListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -65,7 +70,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, BaiduMap.OnMapStatusChangeListener {
 
-    private final int SDK_PERMISSION_REQUEST = 127;
+    private static final  int REQUEST_CODE_SETTING = 100;
 
     MapView mMapView = null;
     BaiduMap mBaiduMap = null;
@@ -171,7 +176,21 @@ public class MainActivity extends AppCompatActivity
         ImageButton imageButton = (ImageButton)findViewById(R.id.but_refresh);
         imageButton.setOnClickListener(this);
 
-        getPermissions();
+        // 权限设置
+        AndPermission.with(this)
+                .requestCode(REQUEST_CODE_SETTING)
+                .permission(Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_PHONE_STATE)
+                .rationale(new RationaleListener() {
+
+            @Override
+            public void showRequestPermissionRationale(int arg0, Rationale arg1) {
+                AndPermission.rationaleDialog(MainActivity.this, arg1).show();
+            }
+        })
+                .send();
 
         //
         // 初始化机智云SDK
@@ -418,52 +437,6 @@ public class MainActivity extends AppCompatActivity
         mLocationClient.start();
     }
 
-    @TargetApi(23)
-    private void getPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ArrayList<String> permissions = new ArrayList<String>();
-            /*
-             * 定位权限为必须权限，用户如果禁止，则每次进入都会申请
-             */
-            // 定位精确位置
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
-            }
-            if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-            }
-
-            /*
-			 * 读写权限和电话状态权限非必要权限(建议授予)只会申请一次，用户同意或者禁止，只会弹一次
-			 */
-            // 读写权限
-            addPermission(permissions, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-            // 读取电话状态权限
-            addPermission(permissions, Manifest.permission.READ_PHONE_STATE);
-
-            if (permissions.size() > 0) {
-                requestPermissions(permissions.toArray(new String[permissions.size()]), SDK_PERMISSION_REQUEST);
-            }
-        }
-    }
-
-    @TargetApi(23)
-    private boolean addPermission(ArrayList<String> permissionsList, String permission) {
-        if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) { // 如果应用没有获得对应权限,则添加到列表中,准备批量申请
-            if (shouldShowRequestPermissionRationale(permission)){
-                return true;
-            }
-            else {
-                permissionsList.add(permission);
-                return false;
-            }
-        }
-        else {
-            return true;
-        }
-    }
-
     @Override
     public void onMapStatusChangeStart(MapStatus mapStatus) {
 
@@ -629,4 +602,24 @@ public class MainActivity extends AppCompatActivity
                 }
         );
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, mPermListener);
+    }
+
+    /**
+     * 权限设置监听器
+     */
+    private PermissionListener mPermListener = new PermissionListener() {
+        @Override
+        public void onSucceed(int requestCode, List<String> grantPermissions) {
+        }
+
+        @Override
+        public void onFailed(int requestCode, List<String> deniedPermissions) {
+        }
+    };
 }
