@@ -59,16 +59,16 @@ public class DeviceActivity extends DeviceBaseActivity implements View.OnClickLi
 
                     // 提交使用记录
                     setUseDevice();
-
-                    // 解除绑定
-                    mDevice.setSubscribe(false);
-
-                    GizWifiSDK.sharedInstance().unbindDevice(
-                            CommonUtils.getInstance().getGzUid(),
-                            CommonUtils.getInstance().getGzToken(),
-                            device.getDid()
-                    );
                 }
+
+                // 解除绑定
+                mDevice.setSubscribe(false);
+
+                GizWifiSDK.sharedInstance().unbindDevice(
+                        CommonUtils.getInstance().getGzUid(),
+                        CommonUtils.getInstance().getGzToken(),
+                        device.getDid()
+                );
 
                 // UI操作
                 runOnUiThread(new Runnable() {
@@ -79,7 +79,8 @@ public class DeviceActivity extends DeviceBaseActivity implements View.OnClickLi
                             showDialogView(true, mLayoutDialogNotice, true);
                         }
                         else {
-                            Toast.makeText(DeviceActivity.this, "操作失败", Toast.LENGTH_SHORT).show();
+                            String strError = "操作失败: " + result;
+                            Toast.makeText(DeviceActivity.this, strError, Toast.LENGTH_SHORT).show();
 
                             // 返回
                             onBackPressed();

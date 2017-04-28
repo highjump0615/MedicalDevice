@@ -1,5 +1,6 @@
 package com.highjump.medicaldevice;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -7,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ViewGroup;
@@ -14,12 +16,20 @@ import android.widget.Toast;
 
 import com.google.zxing.Result;
 import com.highjump.medicaldevice.utils.CommonUtils;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.PermissionListener;
+import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.RationaleListener;
+
+import java.util.List;
 
 import me.dm7.barcodescanner.core.IViewFinder;
 import me.dm7.barcodescanner.core.ViewFinderView;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScanActivity extends BaseActivity implements ZXingScannerView.ResultHandler {
+
+    private static final  int REQUEST_CODE_SETTING = 100;
 
     private ZXingScannerView mScannerView;
 
@@ -54,6 +64,19 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
             }
         };
         contentFrame.addView(mScannerView);
+
+        // 权限设置
+        AndPermission.with(this)
+                .requestCode(REQUEST_CODE_SETTING)
+                .permission(Manifest.permission.CAMERA)
+                .rationale(new RationaleListener() {
+
+                    @Override
+                    public void showRequestPermissionRationale(int arg0, Rationale arg1) {
+                        AndPermission.rationaleDialog(ScanActivity.this, arg1).show();
+                    }
+                })
+                .send();
     }
 
     @Override
@@ -111,4 +134,29 @@ public class ScanActivity extends BaseActivity implements ZXingScannerView.Resul
             setBorderColor(nColorPrimary);
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, mPermListener);
+    }
+
+    /**
+     * 权限设置监听器
+     */
+    private PermissionListener mPermListener = new PermissionListener() {
+        @Override
+        public void onSucceed(int requestCode, List<String> grantPermissions) {
+        }
+
+        @Override
+        public void onFailed(int requestCode, List<String> deniedPermissions) {
+            // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
+            if (AndPermission.hasAlwaysDeniedPermission(ScanActivity.this, deniedPermissions)) {
+                // 第一种：用默认的提示语。
+                AndPermission.defaultSettingDialog(ScanActivity.this, REQUEST_CODE_SETTING).show();
+            }
+        }
+    };
 }
